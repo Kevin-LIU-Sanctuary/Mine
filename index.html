@@ -956,7 +956,7 @@
                         <div id="chatMessages"></div>
                     </div>
                     <div class="ai-toolbar">
-                        <input type="text" id="chatInput" placeholder="啥都可以跟我说说...">
+                        <input type="text" id="chatInput" placeholder="啥都可以跟我说说">
                         <button id="sendBtn">发送</button>
                         <button id="clearChat" class="outline-btn">清空</button>
                     </div>
@@ -1636,7 +1636,7 @@
                 severityHtml = `<div style="display:flex; gap:4px; justify-content:space-between; margin:20px 0;">`;
                 currentScale.severityLevels.forEach(level => {
                     let color = level.name.includes('正常')?'var(--success)':level.name.includes('轻度')?'var(--warning)':level.name.includes('中度')?'var(--danger)':'var(--danger)';
-                    severityHtml += `<div style="flex:1; background:var(--bg-secondary); border-radius:30px; padding:8px; text-align:center;"><span style="color:${color}; font-weight:700;">${level.range[0]}-${level.range[1]}</span><br><span style="font-size:12px;">${level.name}</span></div>`;
+                    severityHtml += `<div style="flex:1; background:var(--bg-secondary); border-radius:30px; padding:8px; text-align:center;"><span style="color:${color}; font-weight:700;">${level.range[0]}-${level.range[1]}</span><br><span style="font-size: clamp(8px, 3vw, 12px); white-space: nowrap;">${level.name}</span></div>`;
                 });
                 severityHtml += `</div>`;
             }

@@ -615,6 +615,7 @@
             border: 1px solid var(--border-extra-light);
             box-shadow: var(--shadow-lg);
             margin-top: auto;
+            flex-wrap: nowrap; /* 确保不换行 */
         }
         .ai-toolbar input {
             flex: 1;
@@ -623,6 +624,7 @@
             padding: 12px 0;
             font-size: 16px;
             outline: none;
+            min-width: 0; /* 防止输入框溢出 */
         }
         .ai-toolbar button {
             background: var(--primary);
@@ -632,6 +634,8 @@
             padding: 10px 20px;
             font-weight: 600;
             cursor: pointer;
+            flex-shrink: 0; /* 禁止按钮缩小 */
+            white-space: nowrap; /* 文字不换行 */
         }
         .ai-toolbar .outline-btn {
             background: white;
@@ -842,9 +846,9 @@
             </div>
             <div id="login-form">
                 <div style="margin-bottom:20px;">
-                    <label style="font-size:14px; color:var(--text-secondary); display:block; margin-bottom:6px;">ID（共4位）</label>
+                    <label style="font-size:14px; color:var(--text-secondary); display:block; margin-bottom:6px;">用户 ID</label>
                     <div style="display:flex; align-items:center; background:#F2F4F8; border-radius:40px; padding:0 16px; border:1px solid var(--border-light);">
-                        <input type="text" id="loginId" placeholder="请联系管理员以获取ID" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;" maxlength="4" pattern="\d*">
+                        <input type="text" id="loginId" placeholder="请联系管理员以获取 ID" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;" maxlength="4" pattern="\d*">
                     </div>
                 </div>
                 <div style="margin-bottom:20px;">
@@ -870,7 +874,7 @@
                 <div class="desktop-nav">
                     <div class="nav-item" data-tab="home">首页</div>
                     <div class="nav-item" data-tab="history">历史记录</div>
-                    <div class="nav-item" data-tab="ai">AI咨询</div>
+                    <div class="nav-item" data-tab="ai">AI 咨询</div>
                     <div class="nav-item" data-tab="meditation">正念冥想</div>
                     <div class="nav-item" data-tab="science">健康科普</div>
                 </div>
@@ -879,7 +883,7 @@
             <div class="mobile-dropdown" id="mobileDropdown">
                 <div class="mobile-dropdown-item active" data-tab="home">首页</div>
                 <div class="mobile-dropdown-item" data-tab="history">历史记录</div>
-                <div class="mobile-dropdown-item" data-tab="ai">AI咨询</div>
+                <div class="mobile-dropdown-item" data-tab="ai">AI 咨询</div>
                 <div class="mobile-dropdown-item" data-tab="meditation">正念冥想</div>
                 <div class="mobile-dropdown-item" data-tab="science">健康科普</div>
             </div>
@@ -945,14 +949,14 @@
 
             <!-- AI咨询页 -->
             <div id="page-ai" class="page">
-                <h1 class="section-title">AI心理支持</h1>
+                <h1 class="section-title">AI 心理支持</h1>
                 <div class="chat-divider"><span>以下是最新对话</span></div>
                 <div class="ai-container">
                     <div class="chat-messages-area" id="chatMessagesArea">
                         <div id="chatMessages"></div>
                     </div>
                     <div class="ai-toolbar">
-                        <input type="text" id="chatInput" placeholder=" 想到什么都可以跟我说说～">
+                        <input type="text" id="chatInput" placeholder="啥都可以跟我说说">
                         <button id="sendBtn">发送</button>
                         <button id="clearChat" class="outline-btn">清空</button>
                     </div>
@@ -984,8 +988,9 @@
 
             <!-- 历史记录页 -->
             <div id="page-history" class="page">
+                <h1 class="section-title" style="margin-bottom:0;">历史记录</h1>
+                <p class="section-subtitle"></p>
                 <div class="history-header">
-                    <h1 class="section-title" style="margin-bottom:0;">历史记录</h1>
                     <div class="filter-bar" style="margin-bottom:0;">
                         <select id="historyFilter" class="filter-select">
                             <option value="all">全部</option>
@@ -1044,7 +1049,7 @@
             <!-- 健康科普页 -->
             <div id="page-science" class="page">
                 <h1 class="section-title">健康科普</h1>
-                <p class="section-subtitle">基于科学的心理健康知识，不定期更新</p>
+                <p class="section-subtitle">基于科学的心理健康知识</p>
                 <div style="display:flex; gap:8px; background:white; border-radius:50px; padding:8px 16px; margin-bottom:20px;">
                     <input type="text" id="searchScience" placeholder="搜索文章..." style="flex:1; border:none; background:transparent; padding:8px;">
                     <button id="searchBtn" style="background:var(--primary); color:white; border:none; border-radius:40px; padding:8px 20px;">搜索</button>

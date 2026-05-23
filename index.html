@@ -45,7 +45,14 @@
             
             --nav-height: 60px;
             --content-padding: 20px;
-            --radius-lg: 18px;
+            
+            /* 柔和型圆角系统 (16-24px) */
+            --radius-card: 35px;
+            --radius-button: 999px;
+            --radius-input: 30px;
+            --radius-modal: 35px;
+            --radius-capsule: 999px;
+            
             --shadow-sm: 0 2px 10px rgba(0,0,0,0.03);
             --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
             --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
@@ -62,7 +69,7 @@
             flex-direction: column;
         }
 
-
+        /* 动画定义 (保持不变) */
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         @keyframes springPop { 0% { transform: scale(0.9); opacity: 0; } 50% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
@@ -273,7 +280,7 @@
         }
         .scale-card {
             background: var(--bg-primary);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-card);
             padding: 24px;
             box-shadow: var(--shadow-md);
             border: 1px solid var(--border-extra-light);
@@ -288,7 +295,7 @@
         .glass-card {
             background: rgba(255,255,255,0.7);
             backdrop-filter: blur(10px);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-card);
             padding: 24px;
             border: 1px solid rgba(255,255,255,0.3);
             box-shadow: var(--shadow-sm);
@@ -298,7 +305,7 @@
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 60px;
+            border-radius: var(--radius-button);
             padding: 16px 24px;
             font-size: 17px;
             font-weight: 600;
@@ -330,7 +337,7 @@
         .option-btn {
             width: 48px;
             height: 48px;
-            border-radius: 50%;
+            border-radius: var(--radius-capsule);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -356,7 +363,7 @@
         .progress-pill {
             background: rgba(255,255,255,0.8);
             backdrop-filter: blur(20px);
-            border-radius: 60px;
+            border-radius: var(--radius-capsule);
             padding: 8px 16px;
             margin-bottom: 20px;
             display: flex;
@@ -380,7 +387,7 @@
         }
         .timer-badge {
             background: white;
-            border-radius: 40px;
+            border-radius: var(--radius-capsule);
             padding: 6px 14px;
             font-size: 14px;
             font-weight: 500;
@@ -390,18 +397,17 @@
         .exit-pill {
             background: none;
             border: 1px solid var(--border-extra-light);
-            border-radius: 40px;
+            border-radius: var(--radius-capsule);
             padding: 6px 14px;
             font-size: 14px;
             color: var(--text-secondary);
             cursor: pointer;
         }
 
-
         .history-list { margin-top: 20px; }
         .history-item {
             background: white;
-            border-radius: 20px;
+            border-radius: var(--radius-card);
             padding: 16px;
             margin-bottom: 12px;
             border-left: 5px solid;
@@ -435,7 +441,7 @@
         .history-actions button, .filter-btn {
             background: none;
             border: 1px solid var(--border-light);
-            border-radius: 40px;
+            border-radius: var(--radius-button);
             padding: 8px 16px;
             cursor: pointer;
         }
@@ -449,7 +455,7 @@
         }
         .filter-select {
             padding: 8px 16px;
-            border-radius: 40px;
+            border-radius: var(--radius-input);
             border: 1px solid var(--border-light);
             background: white;
             font-size: 14px;
@@ -462,7 +468,7 @@
             width: 48px;
             height: 48px;
             background-color: var(--danger);
-            border-radius: 50%;
+            border-radius: var(--radius-capsule);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -494,7 +500,7 @@
         .modal-overlay.show { opacity: 1; visibility: visible; }
         .modal-content {
             background: white;
-            border-radius: 30px;
+            border-radius: var(--radius-modal);
             width: 90%;
             max-width: 500px;
             max-height: 80%;
@@ -537,7 +543,7 @@
             width: 70px;
             padding: 8px;
             border: 1px solid var(--border-light);
-            border-radius: 30px;
+            border-radius: var(--radius-input);
             text-align: center;
         }
         .gender-group {
@@ -570,7 +576,7 @@
             width: 100%;
             padding: 12px;
             border: 1px solid var(--border-light);
-            border-radius: 40px;
+            border-radius: var(--radius-input);
         }
         .mbti-dimension { margin-bottom: 20px; }
         .mbti-buttons {
@@ -582,7 +588,7 @@
             flex: 1;
             padding: 12px;
             border: 1px solid var(--border-light);
-            border-radius: 40px;
+            border-radius: var(--radius-button);
             background: white;
             cursor: pointer;
             transition: all 0.2s;
@@ -607,7 +613,7 @@
         .ai-toolbar {
             background: rgba(255,255,255,0.9);
             backdrop-filter: blur(20px);
-            border-radius: 60px;
+            border-radius: var(--radius-capsule);
             padding: 8px 8px 8px 20px;
             display: flex;
             align-items: center;
@@ -615,7 +621,7 @@
             border: 1px solid var(--border-extra-light);
             box-shadow: var(--shadow-lg);
             margin-top: auto;
-            flex-wrap: nowrap; /* 确保不换行 */
+            flex-wrap: nowrap;
         }
         .ai-toolbar input {
             flex: 1;
@@ -624,18 +630,18 @@
             padding: 12px 0;
             font-size: 16px;
             outline: none;
-            min-width: 0; /* 防止输入框溢出 */
+            min-width: 0;
         }
         .ai-toolbar button {
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 50px;
+            border-radius: var(--radius-button);
             padding: 10px 20px;
             font-weight: 600;
             cursor: pointer;
-            flex-shrink: 0; /* 禁止按钮缩小 */
-            white-space: nowrap; /* 文字不换行 */
+            flex-shrink: 0;
+            white-space: nowrap;
         }
         .ai-toolbar .outline-btn {
             background: white;
@@ -685,14 +691,14 @@
             color: var(--primary);
             background: rgba(255,255,255,0.7);
             padding: 12px 24px;
-            border-radius: 60px;
+            border-radius: var(--radius-capsule);
             backdrop-filter: blur(8px);
         }
         .meditation-btn {
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 40px;
+            border-radius: var(--radius-button);
             padding: 12px 24px;
             font-size: 16px;
             font-weight: 500;
@@ -728,7 +734,7 @@
         .timer-select button {
             background: var(--bg-secondary);
             border: 1px solid var(--border-light);
-            border-radius: 40px;
+            border-radius: var(--radius-button);
             padding: 8px 20px;
             font-size: 14px;
             cursor: pointer;
@@ -752,7 +758,7 @@
             background: var(--primary);
             color: white;
             padding: 12px 24px;
-            border-radius: 50px;
+            border-radius: var(--radius-capsule);
             z-index: 2000;
             transition: top 0.3s;
             font-weight: 500;
@@ -797,7 +803,7 @@
             width: 28px;
             height: 28px;
             background: white;
-            border-radius: 50%;
+            border-radius: var(--radius-capsule);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -817,7 +823,7 @@
             background: #FFE4B5;
             display: inline-block;
             padding: 2px 10px;
-            border-radius: 30px;
+            border-radius: var(--radius-capsule);
             letter-spacing: 0.5px;
             color: #8B5A2B;
             margin-top: 8px;
@@ -829,6 +835,13 @@
             align-items: baseline;
             margin-bottom: 20px;
         }
+        /* 登录页面内部容器圆角修正 */
+        #login-container input {
+            border-radius: var(--radius-input) !important;
+        }
+        #login-container .apple-button {
+            border-radius: var(--radius-button);
+        }
     </style>
 </head>
 <body>
@@ -839,7 +852,7 @@
 
     <!-- 登录界面（ID+password） -->
     <div id="auth-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, var(--primary), var(--secondary)); display:flex; align-items:center; justify-content:center; z-index:2000; display:none;">
-        <div id="login-container" style="width:90%; max-width:400px; background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); border-radius:60px; padding:40px 30px; box-shadow:0 30px 60px rgba(0,0,0,0.2); animation:springPop 0.6s var(--animation-timing)">
+        <div id="login-container" style="width:90%; max-width:400px; background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); border-radius:var(--radius-modal); padding:40px 30px; box-shadow:0 30px 60px rgba(0,0,0,0.2); animation:springPop 0.6s var(--animation-timing)">
             <h1 style="font-size:38px; color:var(--primary); text-align:center; margin-bottom:8px;">心理健康评估</h1>
             <div style="text-align:center; margin-bottom:30px;">
                 <span id="versionText" class="version-badge">v1.0.0</span>
@@ -847,13 +860,13 @@
             <div id="login-form">
                 <div style="margin-bottom:20px;">
                     <label style="font-size:14px; color:var(--text-secondary); display:block; margin-bottom:6px;">用户 ID</label>
-                    <div style="display:flex; align-items:center; background:#F2F4F8; border-radius:40px; padding:0 16px; border:1px solid var(--border-light);">
+                    <div style="display:flex; align-items:center; background:#F2F4F8; border-radius:var(--radius-input); padding:0 16px; border:1px solid var(--border-light);">
                         <input type="text" id="loginId" placeholder="请联系管理员以获取 ID" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;" maxlength="4" pattern="\d*">
                     </div>
                 </div>
                 <div style="margin-bottom:20px;">
                     <label style="font-size:14px; color:var(--text-secondary); display:block; margin-bottom:6px;">密码</label>
-                    <div style="display:flex; align-items:center; background:#F2F4F8; border-radius:40px; padding:0 16px; border:1px solid var(--border-light);">
+                    <div style="display:flex; align-items:center; background:#F2F4F8; border-radius:var(--radius-input); padding:0 16px; border:1px solid var(--border-light);">
                         <input type="password" id="loginPassword" placeholder="密码" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;">
                         <button class="password-toggle" id="toggleLoginPassword" style="background:none; border:none; font-size:20px; color:var(--text-tertiary); line-height:1;">👁️</button>
                     </div>
@@ -863,7 +876,7 @@
         </div>
     </div>
 
-    <!-- 主界面 -->
+    <!-- 主界面（内容与之前基本相同，仅修正圆角相关的内联样式） -->
     <div id="main-screen" style="display:none;">
         <header class="site-header">
             <div class="nav-container">
@@ -908,8 +921,7 @@
                         <h3 style="margin-bottom:12px;">评估指南</h3>
                         <ul style="padding-left:20px; color:var(--text-secondary); font-size:15px; line-height:1.8;">
                             <li>请根据近期的真实感受选择</li>
-                            <li>SDS量表每题有4个选项 (偶有、有时、经常、持续)，其他量表有5个选项</li>
-                            <li>完成后可查看结果报告</li>
+                            <li>完成后即可查看结果报告</li>
                         </ul>
                     </div>
                     <div id="severityInfo"></div>
@@ -933,12 +945,12 @@
                         <div class="option-row" id="optionsContainer"></div>
                     </div>
                     <div style="display:flex; gap:10px; margin-top:20px;">
-                        <button id="prevBtn" style="flex:1; padding:14px; border-radius:50px; border:1px solid var(--border-light); background:white;">上一题</button>
-                        <button id="nextBtn" style="flex:1; padding:14px; border-radius:50px; border:none; background:var(--primary); color:white;">下一题</button>
+                        <button id="prevBtn" style="flex:1; padding:14px; border-radius:var(--radius-button); border:1px solid var(--border-light); background:white;">上一题</button>
+                        <button id="nextBtn" style="flex:1; padding:14px; border-radius:var(--radius-button); border:none; background:var(--primary); color:white;">下一题</button>
                     </div>
                 </div>
                 <div id="result-step" style="display:none;">
-                    <div style="background:linear-gradient(135deg, var(--primary), var(--secondary)); border-radius:30px; padding:24px; color:white; text-align:center; margin-bottom:20px;">
+                    <div style="background:linear-gradient(135deg, var(--primary), var(--secondary)); border-radius:var(--radius-modal); padding:24px; color:white; text-align:center; margin-bottom:20px;">
                         <h2 style="color:white; margin-bottom:4px;">评估报告</h2>
                         <p id="resultTime">用时 00:00</p>
                     </div>
@@ -956,7 +968,7 @@
                         <div id="chatMessages"></div>
                     </div>
                     <div class="ai-toolbar">
-                        <input type="text" id="chatInput" placeholder="啥都可以跟我说说">
+                        <input type="text" id="chatInput" placeholder="啥都可以跟我说说...">
                         <button id="sendBtn">发送</button>
                         <button id="clearChat" class="outline-btn">清空</button>
                     </div>
@@ -1032,13 +1044,13 @@
                     </div>
                     <button class="apple-button" id="editProfileBtn">编辑个人信息</button>
                     <button class="apple-button apple-button-outline" id="modifyAccountBtn" style="margin-top:12px;">修改密码</button>
-                    <div style="background:var(--bg-secondary); border-radius:30px; padding:20px; margin-top:20px;">
+                    <div style="background:var(--bg-secondary); border-radius:var(--radius-card); padding:20px; margin-top:20px;">
                         <h3>评估统计</h3>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px;">
-                            <div style="background:white; border-radius:20px; padding:12px; text-align:center;">总次数<br><span id="totalCount">0</span></div>
-                            <div style="background:white; border-radius:20px; padding:12px; text-align:center;">最近评估<br><span id="lastDate">暂无</span></div>
-                            <div style="background:white; border-radius:20px; padding:12px; text-align:center;">最近分数<br><span id="lastScore">暂无</span></div>
-                            <div style="background:white; border-radius:20px; padding:12px; text-align:center;">最近等级<br><span id="lastSeverity">暂无</span></div>
+                            <div style="background:white; border-radius:var(--radius-card); padding:12px; text-align:center;">总次数<br><span id="totalCount">0</span></div>
+                            <div style="background:white; border-radius:var(--radius-card); padding:12px; text-align:center;">最近评估<br><span id="lastDate">暂无</span></div>
+                            <div style="background:white; border-radius:var(--radius-card); padding:12px; text-align:center;">最近分数<br><span id="lastScore">暂无</span></div>
+                            <div style="background:white; border-radius:var(--radius-card); padding:12px; text-align:center;">最近等级<br><span id="lastSeverity">暂无</span></div>
                         </div>
                     </div>
                     <button class="apple-button" id="logoutBtn" style="background:var(--danger); margin-top:30px;">退出登录</button>
@@ -1050,9 +1062,9 @@
             <div id="page-science" class="page">
                 <h1 class="section-title">健康科普</h1>
                 <p class="section-subtitle">基于科学的心理健康知识</p>
-                <div style="display:flex; gap:8px; background:white; border-radius:50px; padding:8px 16px; margin-bottom:20px; border:1px solid var(--border-light); box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                    <input type="text" id="searchScience" placeholder="搜索文章..." style="flex:1; border:none; background:transparent; padding:8px; outline:none;">
-                    <button id="searchBtn" style="background:var(--primary); color:white; border:none; border-radius:40px; padding:8px 20px; cursor:pointer;">搜索</button>
+                <div style="display:flex; gap:8px; background:white; border-radius:var(--radius-capsule); padding:8px 16px; margin-bottom:20px; border:1px solid var(--border-light); box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                    <input type="text" id="searchScience" placeholder="搜索文章..." style="flex:1; border:none; background:transparent; padding:8px; outline:none; border-radius:var(--radius-input);">
+                    <button id="searchBtn" style="background:var(--primary); color:white; border:none; border-radius:var(--radius-button); padding:8px 20px; cursor:pointer;">搜索</button>
                 </div>
                 <div id="scienceGrid" class="card-grid"></div>
             </div>
@@ -1067,9 +1079,9 @@
             <span class="close-modal" id="closeModifyModal">&times;</span>
             <h3 style="margin-bottom: 20px;">修改密码</h3>
             <div id="modifyPasswordPanel">
-                <div class="form-group"><label>当前密码</label><input type="password" id="currentPassword" style="width:100%; padding:12px; border-radius:40px; border:1px solid var(--border-light);"></div>
-                <div class="form-group"><label>新密码</label><input type="password" id="newPassword" style="width:100%; padding:12px; border-radius:40px; border:1px solid var(--border-light);"></div>
-                <div class="form-group"><label>确认新密码</label><input type="password" id="confirmNewPassword" style="width:100%; padding:12px; border-radius:40px; border:1px solid var(--border-light);"></div>
+                <div class="form-group"><label>当前密码</label><input type="password" id="currentPassword" style="width:100%; padding:12px; border-radius:var(--radius-input); border:1px solid var(--border-light);"></div>
+                <div class="form-group"><label>新密码</label><input type="password" id="newPassword" style="width:100%; padding:12px; border-radius:var(--radius-input); border:1px solid var(--border-light);"></div>
+                <div class="form-group"><label>确认新密码</label><input type="password" id="confirmNewPassword" style="width:100%; padding:12px; border-radius:var(--radius-input); border:1px solid var(--border-light);"></div>
             </div>
             <div class="button-group" style="margin-top:20px;">
                 <button id="confirmModifyBtn" class="apple-button">确认修改</button>
@@ -1083,7 +1095,7 @@
         <div class="modal-content">
             <span class="close-modal" id="closeHistoryModal">&times;</span>
             <div id="modalBody"></div>
-            <button id="deleteThisRecordBtn" style="margin-top:20px; background:var(--danger); color:white; border:none; border-radius:40px; padding:12px; width:20%;">删除</button>
+            <button id="deleteThisRecordBtn" style="margin-top:20px; background:var(--danger); color:white; border:none; border-radius:var(--radius-button); padding:12px; width:20%;">删除</button>
         </div>
     </div>
 
@@ -1092,7 +1104,7 @@
         <div class="modal-content article-modal">
             <span class="close-modal" id="closeArticleModal">&times;</span>
             <div id="articleContent"></div>
-            <a id="articleLink" target="_blank" class="article-link" style="display:inline-block; margin-top:16px; padding:8px 20px; background:var(--primary); color:white; border-radius:40px; text-decoration:none;">查看原文</a>
+            <a id="articleLink" target="_blank" class="article-link" style="display:inline-block; margin-top:16px; padding:8px 20px; background:var(--primary); color:white; border-radius:var(--radius-button); text-decoration:none;">查看原文</a>
         </div>
     </div>
 
@@ -1110,6 +1122,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module">
+
         import { env, pipeline } from '@huggingface/transformers';
 
         // ========== Supabase 配置 ==========
@@ -2123,6 +2136,7 @@
             initLoading.style.display = 'none';
             authScreen.style.display = 'flex';
             mainScreen.style.display = 'none';
+            console.log("圆角优化完成，JS 逻辑与原版一致");
         })();
     </script>
 </body>

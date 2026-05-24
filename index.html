@@ -73,11 +73,11 @@
         @keyframes bounceIn {
             0% {
                 opacity: 0;
-                transform: scale(0.90);
+                transform: scale(0.9);
             }
             60% {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1.01);
             }
             100% {
                 transform: scale(1);
@@ -890,13 +890,13 @@
                 <div style="margin-bottom:20px;">
                     <label style="font-size:14px; color:var(--text-secondary); display:block; margin-bottom:6px;">用户 ID</label>
                     <div style="display:flex; align-items:center; background:#F2F4F8; border-radius:var(--radius-input); padding:0 16px; border:1px solid var(--border-light);">
-                        <input type="text" id="loginId" placeholder="请联系管理员以获取 ID" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;" maxlength="4" pattern="\d*">
+                        <input type="text" id="loginId" placeholder="在这里输入用户 ID" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;" maxlength="4" pattern="\d*">
                     </div>
                 </div>
                 <div style="margin-bottom:20px;">
                     <label style="font-size:14px; color:var(--text-secondary); display:block; margin-bottom:6px;">密码</label>
                     <div style="display:flex; align-items:center; background:#F2F4F8; border-radius:var(--radius-input); padding:0 16px; border:1px solid var(--border-light);">
-                        <input type="password" id="loginPassword" placeholder="密码" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;">
+                        <input type="password" id="loginPassword" placeholder="在这里输入密码" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;">
                         <button class="password-toggle" id="toggleLoginPassword" style="background:none; border:none; font-size:20px; color:var(--text-tertiary); line-height:1;">👁️</button>
                     </div>
                 </div>
@@ -950,6 +950,7 @@
                         <h3 style="margin-bottom:12px;">评估指南</h3>
                         <ul style="padding-left:20px; color:var(--text-secondary); font-size:15px; line-height:1.8;">
                             <li>请根据近期的真实感受选择</li>
+                            <li>SDS量表每题有4个选项 (偶有、有时、经常、持续)，其他量表有5个选项</li>
                             <li>完成后可查看结果报告</li>
                         </ul>
                     </div>
@@ -998,12 +999,10 @@
                         <div id="chatMessages"></div>
                     </div>
                     <div class="ai-toolbar">
-                        <input type="text" id="chatInput" placeholder="啥都可以跟我说说...">
+                        <input type="text" id="chatInput" placeholder="啥都可以跟我说说">
                         <button id="sendBtn">发送</button>
                         <button id="clearChat" class="outline-btn">清空</button>
                     </div>
-                </div>
-
                 </div>
             </div>
 

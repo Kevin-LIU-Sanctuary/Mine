@@ -47,17 +47,17 @@
             --content-padding: 20px;
             
             /* 柔和型圆角系统 (16-24px) */
-            --radius-card: 35px;
-            --radius-button: 999px;
-            --radius-input: 30px;
-            --radius-modal: 35px;
+            --radius-card: 28px;
+            --radius-button: 32px;
+            --radius-input: 24px;
+            --radius-modal: 32px;
             --radius-capsule: 999px;
             
             --shadow-sm: 0 2px 10px rgba(0,0,0,0.03);
             --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
             --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
             
-            --animation-timing: cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            --animation-timing: cubic-bezier(0.34, 1.2, 0.64, 1);
         }
 
         body {
@@ -69,14 +69,76 @@
             flex-direction: column;
         }
 
-        /* 动画定义 (保持不变) */
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes springPop { 0% { transform: scale(0.9); opacity: 0; } 50% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
-        @keyframes slideInLeft { from { transform: translateX(-30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* 弹跳动画 */
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.90);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-        .page { animation: fadeUp 0.4s var(--animation-timing); }
+        .page {
+            animation: fadeInUp 0.5s var(--animation-timing);
+        }
+        
+        /* 所有卡片同时出现并带弹跳，错开延迟 */
+        .scale-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-card);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-extra-light);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            animation: bounceIn 0.5s var(--animation-timing) backwards;
+        }
+        .scale-card:nth-child(1) { animation-delay: 0.05s; }
+        .scale-card:nth-child(2) { animation-delay: 0.1s; }
+        .scale-card:nth-child(3) { animation-delay: 0.15s; }
+        .scale-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* 其他主要组件也带淡入上浮动画 */
+        .section-title, .section-subtitle, .category-title, .glass-card, .profile-card, .history-header, .filter-bar, .ai-container, .meditation-container {
+            animation: fadeInUp 0.4s var(--animation-timing) backwards;
+        }
+        .section-title { animation-delay: 0s; }
+        .section-subtitle { animation-delay: 0.05s; }
+        .category-title { animation-delay: 0.1s; }
+        
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -105,24 +167,7 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        /* 启动加载遮罩（覆盖登录背景） */
-        .init-loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 3000;
-            transition: opacity 1s ease-out;
-        }
-        .init-loading.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
+        
         .site-header {
             position: sticky;
             top: 0;
@@ -278,16 +323,7 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 24px;
         }
-        .scale-card {
-            background: var(--bg-primary);
-            border-radius: var(--radius-card);
-            padding: 24px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-extra-light);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-        .scale-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        
         .scale-icon { font-size: 48px; margin-bottom: 16px; }
         .scale-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
         .scale-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
@@ -828,14 +864,12 @@
             color: #8B5A2B;
             margin-top: 8px;
         }
-        /* 历史记录页大标题 */
         .history-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
             margin-bottom: 20px;
         }
-        /* 登录页面内部容器圆角修正 */
         #login-container input {
             border-radius: var(--radius-input) !important;
         }
@@ -845,11 +879,6 @@
     </style>
 </head>
 <body>
-    <!-- 启动加载遮罩 -->
-    <div id="initLoading" class="init-loading">
-        <div class="loading-spinner"></div>
-    </div>
-
     <!-- 登录界面（ID+password） -->
     <div id="auth-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, var(--primary), var(--secondary)); display:flex; align-items:center; justify-content:center; z-index:2000; display:none;">
         <div id="login-container" style="width:90%; max-width:400px; background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); border-radius:var(--radius-modal); padding:40px 30px; box-shadow:0 30px 60px rgba(0,0,0,0.2); animation:springPop 0.6s var(--animation-timing)">
@@ -876,7 +905,7 @@
         </div>
     </div>
 
-    <!-- 主界面（内容与之前基本相同，仅修正圆角相关的内联样式） -->
+    <!-- 主界面 -->
     <div id="main-screen" style="display:none;">
         <header class="site-header">
             <div class="nav-container">
@@ -921,10 +950,11 @@
                         <h3 style="margin-bottom:12px;">评估指南</h3>
                         <ul style="padding-left:20px; color:var(--text-secondary); font-size:15px; line-height:1.8;">
                             <li>请根据近期的真实感受选择</li>
-                            <li>完成后即可查看结果报告</li>
+                            <li>完成后可查看结果报告</li>
                         </ul>
                     </div>
                     <div id="severityInfo"></div>
+                    <h3 style="margin-bottom:25px;"></h3>
                     <button class="apple-button" id="startAssessmentBtn">开始测评</button>
                     <button class="apple-button apple-button-outline" id="reselectBtn" style="margin-top:12px;">重新选择</button>
                 </div>
@@ -972,6 +1002,9 @@
                         <button id="sendBtn">发送</button>
                         <button id="clearChat" class="outline-btn">清空</button>
                     </div>
+                </div>
+                <div style="text-align: center; font-size: 12px; color: #ff3b30; margin-top: 12px; opacity: 0.7;">
+                    辅助支持内容均由 AI 生成，仅供参考
                 </div>
             </div>
 
@@ -1122,7 +1155,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module">
-
         import { env, pipeline } from '@huggingface/transformers';
 
         // ========== Supabase 配置 ==========
@@ -1145,7 +1177,7 @@
         ];
         let speechSynth = window.speechSynthesis;
 
-        // ========== 本地 AI 模型（已弃用，使用云端） ==========
+        // ========== AI 回复生成 ==========
         async function generateAIReply(userMessage) {
             const apiKey = '05930ed5565943e385dfa6185511a76d.lnyJgQxS6uOYEkex';
             const url = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
@@ -1175,6 +1207,7 @@
             }
         }
 
+        // 规则备用
         function generateRuleReply(msg) {
             let lower = msg.toLowerCase();
             if(lower.includes('焦虑')||lower.includes('紧张')) return "我理解您现在的感受。焦虑时不妨试试深呼吸：慢慢吸气4秒，屏住7秒，然后缓缓呼气8秒。需要我陪您一起分析吗？";
@@ -1185,7 +1218,7 @@
             return "感谢您的分享。我一直在用心倾听。您能多说一些您的感受吗？这样我能更好地理解您。";
         }
 
-        // ========== 量表数据（完整） ==========
+        // ========== 量表数据 ==========
         const scales = {
             hama: {
                 name: "汉密尔顿焦虑量表 (HAMA)",
@@ -1301,7 +1334,7 @@
             { title: "社交连接：心理健康的保护伞", source: "哈佛成人发展研究", desc: "良好的人际关系是预测幸福的最强因素。", fullContent: "哈佛大学持续85年的研究发现，人际关系质量是决定人们是否幸福的关键因素。定期与朋友、家人进行有意义的交流，能够缓解压力，增强归属感。", link: "https://www.adultdevelopmentstudy.org/" }
         ];
 
-        // ========== DOM 元素 ==========
+        // ========== DOM 元素引用 ==========
         const authScreen = document.getElementById('auth-screen');
         const mainScreen = document.getElementById('main-screen');
         const headerAvatarDiv = document.getElementById('headerAvatar');
@@ -1375,7 +1408,6 @@
         const avatarUpload = document.getElementById('avatarUpload');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const toast = document.getElementById('toast');
-        const initLoading = document.getElementById('initLoading');
 
         // ========== 辅助函数 ==========
         function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),2000); }
@@ -1430,7 +1462,6 @@
             }
         }
 
-        // 头像上传
         async function uploadAvatar(file) {
             if (!currentUser) return null;
             const fileExt = file.name.split('.').pop();
@@ -1438,77 +1469,45 @@
             const { data, error } = await supabase.storage
                 .from(AVATAR_BUCKET)
                 .upload(fileName, file, { cacheControl: '3600', upsert: false });
-            if (error) {
-                console.error('上传失败', error);
-                showToast('头像上传失败');
-                return null;
-            }
-            const { data: publicUrlData } = supabase.storage
-                .from(AVATAR_BUCKET)
-                .getPublicUrl(fileName);
+            if (error) { console.error('上传失败', error); showToast('头像上传失败'); return null; }
+            const { data: publicUrlData } = supabase.storage.from(AVATAR_BUCKET).getPublicUrl(fileName);
             const avatarUrl = publicUrlData.publicUrl;
-            const { error: updateError } = await supabase
-                .from('profiles')
-                .update({ avatar_url: avatarUrl })
-                .eq('id', currentUser.id);
-            if (updateError) {
-                console.error('更新头像URL失败', updateError);
-                showToast('保存头像失败');
-                return null;
-            }
+            const { error: updateError } = await supabase.from('profiles').update({ avatar_url: avatarUrl }).eq('id', currentUser.id);
+            if (updateError) { console.error('更新头像URL失败', updateError); showToast('保存头像失败'); return null; }
             currentUser.avatar_url = avatarUrl;
-            updateHeader();
-            updateProfileDisplay();
-            showToast('头像已更新');
+            updateHeader(); updateProfileDisplay(); showToast('头像已更新');
             return avatarUrl;
         }
 
-        // 加载历史记录
         async function loadHistory() {
             if (!currentUser) return;
-            const { data, error } = await supabase
-                .from('results')
-                .select('*')
-                .eq('user_id', currentUser.id)
-                .order('created_at', { ascending: false });
+            const { data, error } = await supabase.from('results').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
             if (error) { console.error(error); showToast('加载历史记录失败'); return; }
             allResults = data;
             renderHistory();
         }
 
-        // 保存测评结果
         async function saveResultToCloud(result) {
             if (!currentUser) return false;
-            const { error } = await supabase
-                .from('results')
-                .insert({
-                    user_id: currentUser.id,
-                    scale_name: result.scale,
-                    total_score: result.totalScore,
-                    standard_score: result.standardScore || null,
-                    raw_answers: result.rawAnswers,
-                    advice: result.advice,
-                    duration: result.duration,
-                });
-            if (error) {
-                console.error('保存结果失败', error);
-                showToast('保存失败，请重试');
-                return false;
-            }
+            const { error } = await supabase.from('results').insert({
+                user_id: currentUser.id,
+                scale_name: result.scale,
+                total_score: result.totalScore,
+                standard_score: result.standardScore || null,
+                raw_answers: result.rawAnswers,
+                advice: result.advice,
+                duration: result.duration,
+            });
+            if (error) { console.error('保存结果失败', error); showToast('保存失败，请重试'); return false; }
             return true;
         }
 
-        // 历史记录相关
         let selectMode = false, selectedHistoryIndices = [];
         function renderHistory() {
             let filter = historyFilter.value;
             let filtered = allResults;
             if (filter !== 'all') filtered = allResults.filter(r => r.scale_name.includes(filter));
-            if (filtered.length===0) {
-                historyListDiv.innerHTML = '<div class="glass-card" style="text-align:center;">暂无记录</div>';
-                historyActions.style.display = 'none';
-                return;
-            }
+            if (filtered.length===0) { historyListDiv.innerHTML = '<div class="glass-card" style="text-align:center;">暂无记录</div>'; historyActions.style.display = 'none'; return; }
             let html = '';
             filtered.forEach((item, idx) => {
                 let originalIdx = allResults.indexOf(item);
@@ -1526,38 +1525,12 @@
             });
             historyListDiv.innerHTML = html;
             historyActions.style.display = selectMode ? 'flex' : 'none';
-            if (selectMode) {
-                historyListDiv.classList.add('edit-mode');
-                document.querySelectorAll('.history-checkbox').forEach(cb => {
-                    cb.onchange = (e) => {
-                        const idx = parseInt(cb.dataset.idx);
-                        if (cb.checked) selectedHistoryIndices.push(idx);
-                        else selectedHistoryIndices = selectedHistoryIndices.filter(i => i !== idx);
-                    };
-                });
-            } else {
-                historyListDiv.classList.remove('edit-mode');
-            }
+            if (selectMode) { historyListDiv.classList.add('edit-mode'); document.querySelectorAll('.history-checkbox').forEach(cb => { cb.onchange = (e) => { const idx = parseInt(cb.dataset.idx); if (cb.checked) selectedHistoryIndices.push(idx); else selectedHistoryIndices = selectedHistoryIndices.filter(i => i !== idx); }; }); }
+            else { historyListDiv.classList.remove('edit-mode'); }
             document.querySelectorAll('.delete-single-btn').forEach(btn => {
-                btn.onclick = async (e) => {
-                    e.stopPropagation();
-                    let idx = parseInt(btn.dataset.idx);
-                    if (confirm('确定删除此条记录吗？')) {
-                        const item = allResults[idx];
-                        const { error } = await supabase.from('results').delete().eq('id', item.id);
-                        if (error) { showToast('删除失败'); return; }
-                        allResults.splice(idx,1);
-                        renderHistory();
-                        updateProfileDisplay();
-                        showToast('已删除');
-                    }
-                };
+                btn.onclick = async (e) => { e.stopPropagation(); let idx = parseInt(btn.dataset.idx); if (confirm('确定删除此条记录吗？')) { const item = allResults[idx]; const { error } = await supabase.from('results').delete().eq('id', item.id); if (error) { showToast('删除失败'); return; } allResults.splice(idx,1); renderHistory(); updateProfileDisplay(); showToast('已删除'); } };
             });
-            document.querySelectorAll('.history-content').forEach(el => {
-                el.onclick = () => {
-                    if (!selectMode) showHistoryDetail(parseInt(el.dataset.idx));
-                };
-            });
+            document.querySelectorAll('.history-content').forEach(el => { el.onclick = () => { if (!selectMode) showHistoryDetail(parseInt(el.dataset.idx)); }; });
         }
 
         function showHistoryDetail(idx) {
@@ -1568,66 +1541,29 @@
             content += `</div>`;
             modalBody.innerHTML = content;
             historyModal.classList.add('show');
-            deleteThisRecordBtn.onclick = async () => {
-                if (confirm('确定删除此条记录吗？')) {
-                    const { error } = await supabase.from('results').delete().eq('id', item.id);
-                    if (error) { showToast('删除失败'); return; }
-                    allResults.splice(idx,1);
-                    renderHistory();
-                    updateProfileDisplay();
-                    historyModal.classList.remove('show');
-                    showToast('已删除');
-                }
-            };
+            deleteThisRecordBtn.onclick = async () => { if (confirm('确定删除此条记录吗？')) { const { error } = await supabase.from('results').delete().eq('id', item.id); if (error) { showToast('删除失败'); return; } allResults.splice(idx,1); renderHistory(); updateProfileDisplay(); historyModal.classList.remove('show'); showToast('已删除'); } };
         }
 
-        // 导出详细数据
         async function exportDetailedHistory() {
             if (allResults.length === 0) { alert('暂无数据'); return; }
             let rows = [];
             for (let item of allResults) {
-                let row = {
-                    '时间': new Date(item.created_at).toLocaleString(),
-                    '量表': item.scale_name,
-                    '总分': item.total_score,
-                    '标准分': item.standard_score || '',
-                    '用时(秒)': item.duration,
-                    '详细答案': item.raw_answers ? JSON.stringify(item.raw_answers) : ''
-                };
+                let row = { '时间': new Date(item.created_at).toLocaleString(), '量表': item.scale_name, '总分': item.total_score, '标准分': item.standard_score || '', '用时(秒)': item.duration, '详细答案': item.raw_answers ? JSON.stringify(item.raw_answers) : '' };
                 rows.push(row);
             }
-            const csvRows = [];
-            const headers = Object.keys(rows[0]);
-            csvRows.push(headers.join(','));
-            for (const row of rows) {
-                const values = headers.map(header => {
-                    let val = row[header];
-                    if (typeof val === 'string' && (val.includes(',') || val.includes('"'))) {
-                        val = `"${val.replace(/"/g, '""')}"`;
-                    }
-                    return val;
-                });
-                csvRows.push(values.join(','));
-            }
+            const csvRows = []; const headers = Object.keys(rows[0]); csvRows.push(headers.join(','));
+            for (const row of rows) { const values = headers.map(header => { let val = row[header]; if (typeof val === 'string' && (val.includes(',') || val.includes('"'))) val = `"${val.replace(/"/g, '""')}"`; return val; }); csvRows.push(values.join(',')); }
             const blob = new Blob(['\uFEFF' + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `psy_detailed_${new Date().toISOString().slice(0,10)}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('导出成功');
+            const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `psy_detailed_${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(url); showToast('导出成功');
         }
 
-        // 量表渲染
         function renderHome() {
             let categories = [{ title: "焦虑测试", items: ['hama'] },{ title: "抑郁测试", items: ['sds'] },{ title: "性格测试", items: ['disc'] }];
             let html = '';
             categories.forEach(cat => {
                 html += `<div class="category-section"><div class="category-title">${cat.title}</div><div class="card-grid">`;
                 cat.items.forEach(key => {
-                    let scale = scales[key];
-                    let icon = key==='hama'?'📋':key==='sds'?'😔':'🎭';
+                    let scale = scales[key]; let icon = key==='hama'?'📋':key==='sds'?'😔':'🎭';
                     html += `<div class="scale-card" data-key="${key}"><div class="scale-icon">${icon}</div><div class="scale-title">${scale.name}</div><div class="scale-desc">${scale.intro}</div></div>`;
                 });
                 html += `</div></div>`;
@@ -1640,8 +1576,7 @@
             pages.assessment.classList.add('active-page');
             currentScale = scales[key];
             answers = new Array(currentScale.questions.length).fill(null);
-            currentIndex = 0;
-            elapsedSeconds = 0;
+            currentIndex = 0; elapsedSeconds = 0;
             document.getElementById('scaleName').innerText = currentScale.name;
             document.getElementById('scaleIntro').innerText = currentScale.intro;
             let severityHtml = '';
@@ -1654,20 +1589,10 @@
                 severityHtml += `</div>`;
             }
             document.getElementById('severityInfo').innerHTML = severityHtml;
-            welcomeStep.style.display = 'block';
-            questionsStep.style.display = 'none';
-            resultStep.style.display = 'none';
+            welcomeStep.style.display = 'block'; questionsStep.style.display = 'none'; resultStep.style.display = 'none';
         }
 
-        function startQuiz() {
-            welcomeStep.style.display = 'none';
-            questionsStep.style.display = 'block';
-            resultStep.style.display = 'none';
-            renderQuestion();
-            updateProgress();
-            startTimer();
-        }
-
+        function startQuiz() { welcomeStep.style.display = 'none'; questionsStep.style.display = 'block'; resultStep.style.display = 'none'; renderQuestion(); updateProgress(); startTimer(); }
         function renderQuestion() {
             let q = currentScale.questions[currentIndex];
             document.getElementById('questionNumber').innerText = `问题 ${currentIndex+1}/${currentScale.questions.length}`;
@@ -1677,16 +1602,11 @@
             for(let i=0;i<numOptions;i++) {
                 let selectedClass = (answers[currentIndex]===i) ? 'selected' : '';
                 let label = '';
-                if (currentScale === scales.sds) {
-                    const labels = ['偶有', '有时', '经常', '持续'];
-                    label = labels[i];
-                } else {
-                    label = (i===0) ? '完全不同意' : (i===4) ? '完全同意' : '';
-                }
+                if (currentScale === scales.sds) { const labels = ['偶有', '有时', '经常', '持续']; label = labels[i]; }
+                else { label = (i===0) ? '完全不同意' : (i===4) ? '完全同意' : ''; }
                 html += `<div class="option-wrapper"><div class="option-btn ${selectedClass}" data-opt="${i}">${i+1}</div><div class="option-label">${label}</div></div>`;
             }
             document.getElementById('optionsContainer').innerHTML = html;
-            // 绑定选项点击事件（自动跳转）
             document.querySelectorAll('.option-btn').forEach(btn => {
                 btn.onclick = () => {
                     let opt = parseInt(btn.dataset.opt);
@@ -1694,88 +1614,33 @@
                     btn.classList.add('selected');
                     answers[currentIndex] = opt;
                     updateProgress();
-                    // 自动跳转：若为最后一题，弹出确认提交；否则下一题
-                    if (currentIndex === currentScale.questions.length - 1) {
-                        // 最后一题，确认提交
-                        if (confirm('您已完成所有题目，是否提交测评？')) {
-                            finishQuiz();
-                        }
-                    } else {
-                        // 自动进入下一题
-                        currentIndex++;
-                        renderQuestion();
-                        updateProgress();
-                    }
+                    if (currentIndex === currentScale.questions.length - 1) { if (confirm('您已完成所有题目，是否提交测评？')) finishQuiz(); }
+                    else { currentIndex++; renderQuestion(); updateProgress(); }
                 };
             });
             prevBtn.disabled = (currentIndex===0);
             nextBtn.innerText = (currentIndex===currentScale.questions.length-1) ? '完成测评' : '下一题';
         }
-
-        function updateProgress() {
-            let answered = answers.filter(a => a!==null).length;
-            progressFill.style.width = (answered/currentScale.questions.length*100)+'%';
-            progressCount.innerText = `${answered}/${currentScale.questions.length}`;
-        }
-
-        function startTimer() {
-            if(timerInterval) clearInterval(timerInterval);
-            startTime = Date.now() - elapsedSeconds*1000;
-            timerInterval = setInterval(() => {
-                elapsedSeconds = Math.floor((Date.now()-startTime)/1000);
-                timerSpan.textContent = formatTime(elapsedSeconds);
-            },200);
-        }
-
+        function updateProgress() { let answered = answers.filter(a => a!==null).length; progressFill.style.width = (answered/currentScale.questions.length*100)+'%'; progressCount.innerText = `${answered}/${currentScale.questions.length}`; }
+        function startTimer() { if(timerInterval) clearInterval(timerInterval); startTime = Date.now() - elapsedSeconds*1000; timerInterval = setInterval(() => { elapsedSeconds = Math.floor((Date.now()-startTime)/1000); timerSpan.textContent = formatTime(elapsedSeconds); },200); }
         function stopTimer() { clearInterval(timerInterval); timerInterval=null; }
-
         async function finishQuiz() {
             if(answers.includes(null)) { alert('请先回答所有问题'); return false; }
             let total = 0;
-            if (currentScale === scales.hama) {
-                total = answers.reduce((s,i)=>s+i,0);
-            } else if (currentScale === scales.sds) {
-                total = answers.reduce((sum, val, idx) => {
-                    let userScore = val;
-                    let itemScore = userScore + 1;
-                    let qNum = idx + 1;
-                    if (scales.sds.reverseItems.includes(qNum)) {
-                        itemScore = 5 - itemScore;
-                    }
-                    return sum + itemScore;
-                }, 0);
-            } else if (currentScale === scales.disc) {
-                total = answers.reduce((s,i)=>s+(i+1),0);
-            }
-            const result = {
-                timestamp: new Date().toISOString(),
-                scale: currentScale.name,
-                totalScore: total,
-                rawAnswers: [...answers],
-                duration: elapsedSeconds,
-                advice: currentScale.getReport(total,answers).match(/<p>([^<]+)<\/p>/)?.[1] || ""
-            };
-            if (currentScale === scales.sds) {
-                result.standardScore = Math.floor(total * 1.25);
-            }
+            if (currentScale === scales.hama) total = answers.reduce((s,i)=>s+i,0);
+            else if (currentScale === scales.sds) total = answers.reduce((sum, val, idx) => { let userScore = val; let itemScore = userScore + 1; let qNum = idx + 1; if (scales.sds.reverseItems.includes(qNum)) itemScore = 5 - itemScore; return sum + itemScore; }, 0);
+            else if (currentScale === scales.disc) total = answers.reduce((s,i)=>s+(i+1),0);
+            const result = { timestamp: new Date().toISOString(), scale: currentScale.name, totalScore: total, rawAnswers: [...answers], duration: elapsedSeconds, advice: currentScale.getReport(total,answers).match(/<p>([^<]+)<\/p>/)?.[1] || "" };
+            if (currentScale === scales.sds) result.standardScore = Math.floor(total * 1.25);
             const saved = await saveResultToCloud(result);
             if (!saved) return false;
             await loadHistory();
             loadingOverlay.classList.add('show');
-            setTimeout(() => {
-                loadingOverlay.classList.remove('show');
-                let reportHtml = currentScale.getReport(total, answers);
-                document.getElementById('reportContent').innerHTML = reportHtml;
-                document.getElementById('resultTime').textContent = `用时 ${formatTime(elapsedSeconds)}`;
-                welcomeStep.style.display = 'none';
-                questionsStep.style.display = 'none';
-                resultStep.style.display = 'block';
-            }, 2000);
+            setTimeout(() => { loadingOverlay.classList.remove('show'); let reportHtml = currentScale.getReport(total, answers); document.getElementById('reportContent').innerHTML = reportHtml; document.getElementById('resultTime').textContent = `用时 ${formatTime(elapsedSeconds)}`; welcomeStep.style.display = 'none'; questionsStep.style.display = 'none'; resultStep.style.display = 'block'; }, 2000);
             stopTimer();
             return true;
         }
 
-        // AI 聊天
         function renderChat() {
             let html = '';
             chatMessages.forEach(msg => {
@@ -1788,28 +1653,15 @@
             chatMessagesDiv.parentElement.scrollTop = chatMessagesDiv.parentElement.scrollHeight;
         }
 
-        // 科普
         function renderScience(filter='') {
             let filtered = articles.filter(a => a.title.includes(filter) || a.desc.includes(filter));
             let html = '';
-            filtered.forEach(a => {
-                html += `<div class="scale-card" data-title="${a.title}"><div class="scale-icon">📖</div><div class="scale-title">${a.title}</div><div class="scale-desc">${a.desc}</div></div>`;
-            });
+            filtered.forEach(a => { html += `<div class="scale-card" data-title="${a.title}"><div class="scale-icon">📖</div><div class="scale-title">${a.title}</div><div class="scale-desc">${a.desc}</div></div>`; });
             scienceGrid.innerHTML = html || '<div class="glass-card">暂无相关文章</div>';
-            document.querySelectorAll('.scale-card').forEach(card => {
-                card.onclick = () => {
-                    let title = card.dataset.title;
-                    let article = articles.find(a => a.title === title);
-                    if (article) {
-                        articleContent.innerHTML = `<h3>${article.title}</h3><p style="color:var(--text-secondary);">来源：${article.source}</p><div class="article-content">${article.fullContent}</div>`;
-                        articleLink.href = article.link;
-                        articleModal.classList.add('show');
-                    }
-                };
-            });
+            document.querySelectorAll('.scale-card').forEach(card => { card.onclick = () => { let title = card.dataset.title; let article = articles.find(a => a.title === title); if (article) { articleContent.innerHTML = `<h3>${article.title}</h3><p style="color:var(--text-secondary);">来源：${article.source}</p><div class="article-content">${article.fullContent}</div>`; articleLink.href = article.link; articleModal.classList.add('show'); } }; });
         }
 
-        // 冥想
+        // 冥想功能
         function speak(text) { if (speechSynth.speaking) speechSynth.cancel(); let utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'zh-CN'; utterance.rate = 0.9; speechSynth.speak(utterance); }
         function updateMeditationUI() {
             let phase = phases[currentPhaseIndex];
@@ -1827,9 +1679,7 @@
             if (selectedTimer !== null && isMeditating) {
                 let totalRemaining = Math.max(0, selectedTimer - Math.floor((Date.now() - totalStartTime)/1000));
                 document.getElementById('remainingTime').innerText = `剩余总时间: ${totalRemaining}秒`;
-            } else {
-                document.getElementById('remainingTime').innerText = '';
-            }
+            } else { document.getElementById('remainingTime').innerText = ''; }
         }
         function nextPhase() { if (!isMeditating) return; currentPhaseIndex++; if (currentPhaseIndex >= phases.length) currentPhaseIndex = 1; phaseStartTime = Date.now(); let phase = phases[currentPhaseIndex]; if (phase.text !== "准备开始...") speak(phase.text + "..."); updateMeditationUI(); }
         function startMeditation() { if (isMeditating) return; isMeditating = true; currentPhaseIndex = 0; phaseStartTime = Date.now(); totalStartTime = Date.now(); document.getElementById('timerSelect').classList.add('hide'); speak(phases[0].text); updateMeditationUI(); if (meditationTimer) clearInterval(meditationTimer); meditationTimer = setInterval(() => { if (!isMeditating) return; let now = Date.now(); let elapsed = Math.floor((now - phaseStartTime)/1000); let phase = phases[currentPhaseIndex]; if (elapsed >= phase.duration) nextPhase(); else { let remaining = phase.duration - elapsed; document.getElementById('phaseTimer').innerText = `${remaining}`; } updateMeditationUI(); if (selectedTimer !== null && Math.floor((now - totalStartTime)/1000) >= selectedTimer) { stopMeditation(); showToast('冥想时间到'); } }, 100); }
@@ -1850,11 +1700,7 @@
             const email = `${id}@login.com`;
             const { data, error } = await supabase.auth.signInWithPassword({ email, password: pwd });
             if (error) { showToast('ID或密码错误'); return; }
-            const { data: profile, error: profileError } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', data.user.id)
-                .single();
+            const { data: profile, error: profileError } = await supabase.from('profiles').select('*').eq('id', data.user.id).single();
             if (profileError) {
                 const nickname = data.user.user_metadata?.nickname || '用户';
                 const age = data.user.user_metadata?.age || 16;
@@ -1862,29 +1708,18 @@
                 const hobbies = data.user.user_metadata?.hobbies || [];
                 const other_hobby = data.user.user_metadata?.other_hobby || '';
                 const mbti = data.user.user_metadata?.mbti || '';
-                await supabase.from('profiles').insert({
-                    id: data.user.id,
-                    nickname, age, gender, hobbies, other_hobby, mbti
-                });
+                await supabase.from('profiles').insert({ id: data.user.id, nickname, age, gender, hobbies, other_hobby, mbti });
                 currentUser = { ...data.user, nickname, age, gender, hobbies, other_hobby, mbti };
-            } else {
-                currentUser = { ...data.user, ...profile };
-            }
+            } else { currentUser = { ...data.user, ...profile }; }
             localStorage.setItem('currentUserId', currentUser.id);
-            // 平滑过渡：先渐隐启动遮罩
-            initLoading.classList.add('fade-out');
-            setTimeout(() => {
-                initLoading.style.display = 'none';
-                authScreen.style.display = 'none';
-                mainScreen.style.display = 'block';
-                updateHeader();
-                loadHistory().then(() => {
-                    updateProfileDisplay();
-                    renderHome();
-                    renderScience();
-                    renderChat();
-                });
-            }, 1000);
+            authScreen.style.display = 'none';
+            mainScreen.style.display = 'block';
+            updateHeader();
+            await loadHistory();
+            updateProfileDisplay();
+            renderHome();
+            renderScience();
+            renderChat();
         };
 
         // ========== 修改密码 ==========
@@ -1911,61 +1746,27 @@
         closeModifyModal.onclick = () => modifyAccountModal.classList.remove('show');
 
         // ========== 退出登录 ==========
-        logoutBtn.onclick = () => {
-            if (confirm('确定退出登录吗？')) {
-                supabase.auth.signOut();
-                authScreen.style.display = 'flex';
-                mainScreen.style.display = 'none';
-                currentUser = null;
-                localStorage.removeItem('currentUserId');
-                showToast('已退出登录');
-            }
-        };
+        logoutBtn.onclick = () => { if (confirm('确定退出登录吗？')) { supabase.auth.signOut(); authScreen.style.display = 'flex'; mainScreen.style.display = 'none'; currentUser = null; localStorage.removeItem('currentUserId'); showToast('已退出登录'); } };
 
-        // ========== 个人中心编辑 ==========
+        // ========== 个人中心编辑（占位完整实现） ==========
         let hobbyOptions = ['运动/健身','音乐/乐器','阅读/写作','绘画/手工','游戏/电竞','科技/数码','影视/追剧','旅行/户外','烹饪/美食','其他'];
         let dims = [{name:'精力来源', opts:['E','I']},{name:'认知方式',opts:['S','N']},{name:'决策方式',opts:['T','F']},{name:'生活态度',opts:['J','P']}];
         editProfileBtn.onclick = () => {
             let form = document.getElementById('profileEditForm');
-            form.innerHTML = `<div class="form-group"><div class="form-label">昵称</div><input type="text" id="editNickname" value="${currentUser.nickname}" style="width:100%; padding:12px; border-radius:40px; border:1px solid var(--border-light);"></div>
+            form.innerHTML = `<div class="form-group"><div class="form-label">昵称</div><input type="text" id="editNickname" value="${currentUser.nickname}" style="width:100%; padding:12px; border-radius:var(--radius-input); border:1px solid var(--border-light);"></div>
             <div class="form-group"><div class="form-label">年龄</div><div class="age-slider-container"><input type="range" id="editAgeSlider" min="10" max="100" value="${currentUser.age}"><input type="number" id="editAgeInput" value="${currentUser.age}" class="age-input"></div></div>
             <div class="form-group"><div class="form-label">性别</div><div class="gender-group"><label class="gender-option"><input type="radio" name="editGender" value="男" ${currentUser.gender==='男'?'checked':''}> 男</label><label class="gender-option"><input type="radio" name="editGender" value="女" ${currentUser.gender==='女'?'checked':''}> 女</label><label class="gender-option"><input type="radio" name="editGender" value="其他" ${currentUser.gender==='其他'?'checked':''}> 其他</label></div></div>
             <div class="form-group"><div class="form-label">爱好 (可多选)</div><div id="editHobbyGrid"></div><div id="editOtherHobbyDiv" class="other-hobby-input"><input type="text" id="editOtherHobby" placeholder="其他爱好" value="${currentUser.other_hobby||''}"></div></div>
             <div class="form-group"><div class="form-label">MBTI</div><div id="editMbtiContainer"></div></div>`;
             let editHobbyGrid = form.querySelector('#editHobbyGrid');
-            hobbyOptions.forEach(h => {
-                let cb = document.createElement('label');
-                cb.className = 'hobby-checkbox';
-                let checked = currentUser.hobbies.includes(h) ? 'checked' : '';
-                cb.innerHTML = `<input type="checkbox" value="${h}" ${checked}> ${h}`;
-                editHobbyGrid.appendChild(cb);
-            });
+            hobbyOptions.forEach(h => { let cb = document.createElement('label'); cb.className = 'hobby-checkbox'; let checked = currentUser.hobbies.includes(h) ? 'checked' : ''; cb.innerHTML = `<input type="checkbox" value="${h}" ${checked}> ${h}`; editHobbyGrid.appendChild(cb); });
             let editOtherDiv = form.querySelector('#editOtherHobbyDiv');
             if (currentUser.hobbies.includes('其他')) editOtherDiv.classList.add('visible');
             document.querySelector('#editHobbyGrid input[value="其他"]').onchange = (e) => { if (e.target.checked) editOtherDiv.classList.add('visible'); else editOtherDiv.classList.remove('visible'); };
             let editMbtiContainer = form.querySelector('#editMbtiContainer');
-            dims.forEach(dim => {
-                let div = document.createElement('div');
-                div.className = 'mbti-dimension';
-                div.innerHTML = `<div class="dimension-label">${dim.name}</div><div class="mbti-buttons"></div>`;
-                dim.opts.forEach(opt => {
-                    let btn = document.createElement('button');
-                    btn.className = 'mbti-btn';
-                    btn.textContent = opt;
-                    btn.dataset.value = opt;
-                    if (currentUser.mbti && currentUser.mbti.includes(opt)) btn.classList.add('selected');
-                    btn.onclick = () => {
-                        btn.parentNode.querySelectorAll('.mbti-btn').forEach(b=>b.classList.remove('selected'));
-                        btn.classList.add('selected');
-                    };
-                    div.querySelector('.mbti-buttons').appendChild(btn);
-                });
-                editMbtiContainer.appendChild(div);
-            });
-            let ageSlider = form.querySelector('#editAgeSlider');
-            let ageInput = form.querySelector('#editAgeInput');
-            ageSlider.oninput = () => { ageInput.value = ageSlider.value; };
-            ageInput.oninput = () => { ageSlider.value = ageInput.value; };
+            dims.forEach(dim => { let div = document.createElement('div'); div.className = 'mbti-dimension'; div.innerHTML = `<div class="dimension-label">${dim.name}</div><div class="mbti-buttons"></div>`; dim.opts.forEach(opt => { let btn = document.createElement('button'); btn.className = 'mbti-btn'; btn.textContent = opt; btn.dataset.value = opt; if (currentUser.mbti && currentUser.mbti.includes(opt)) btn.classList.add('selected'); btn.onclick = () => { btn.parentNode.querySelectorAll('.mbti-btn').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); }; div.querySelector('.mbti-buttons').appendChild(btn); }); editMbtiContainer.appendChild(div); });
+            let ageSlider = form.querySelector('#editAgeSlider'); let ageInput = form.querySelector('#editAgeInput');
+            ageSlider.oninput = () => { ageInput.value = ageSlider.value; }; ageInput.oninput = () => { ageSlider.value = ageInput.value; };
             document.getElementById('profileEditModal').classList.add('show');
         };
         document.getElementById('saveProfileBtn').onclick = async () => {
@@ -1974,86 +1775,32 @@
             let newGender = document.querySelector('input[name="editGender"]:checked').value;
             let newHobbies = Array.from(document.querySelectorAll('#editHobbyGrid input[type="checkbox"]:checked')).map(cb=>cb.value);
             let otherHobby = document.getElementById('editOtherHobby').value.trim();
-            if (newHobbies.includes('其他')) {
-                newHobbies = newHobbies.filter(h=>h!=='其他');
-                if (otherHobby) newHobbies.push(otherHobby);
-            }
-            let mbti = '';
-            document.querySelectorAll('#editMbtiContainer .mbti-btn.selected').forEach(btn => mbti += btn.dataset.value);
-            const { error } = await supabase
-                .from('profiles')
-                .update({
-                    nickname: newNickname,
-                    age: newAge,
-                    gender: newGender,
-                    hobbies: newHobbies,
-                    other_hobby: otherHobby,
-                    mbti: mbti,
-                })
-                .eq('id', currentUser.id);
+            if (newHobbies.includes('其他')) { newHobbies = newHobbies.filter(h=>h!=='其他'); if (otherHobby) newHobbies.push(otherHobby); }
+            let mbti = ''; document.querySelectorAll('#editMbtiContainer .mbti-btn.selected').forEach(btn => mbti += btn.dataset.value);
+            const { error } = await supabase.from('profiles').update({ nickname: newNickname, age: newAge, gender: newGender, hobbies: newHobbies, other_hobby: otherHobby, mbti: mbti }).eq('id', currentUser.id);
             if (error) { showToast('更新失败'); return; }
-            currentUser.nickname = newNickname;
-            currentUser.age = newAge;
-            currentUser.gender = newGender;
-            currentUser.hobbies = newHobbies;
-            currentUser.other_hobby = otherHobby;
-            currentUser.mbti = mbti;
-            updateHeader();
-            updateProfileDisplay();
-            document.getElementById('profileEditModal').classList.remove('show');
-            showToast('个人信息已更新');
+            currentUser.nickname = newNickname; currentUser.age = newAge; currentUser.gender = newGender; currentUser.hobbies = newHobbies; currentUser.other_hobby = otherHobby; currentUser.mbti = mbti;
+            updateHeader(); updateProfileDisplay(); document.getElementById('profileEditModal').classList.remove('show'); showToast('个人信息已更新');
         };
         document.getElementById('cancelProfileBtn').onclick = () => document.getElementById('profileEditModal').classList.remove('show');
         document.getElementById('closeProfileModal').onclick = () => document.getElementById('profileEditModal').classList.remove('show');
-
-        // 头像上传
-        avatarUpload.onchange = (e) => {
-            let file = e.target.files[0];
-            if (file) uploadAvatar(file);
-        };
+        avatarUpload.onchange = (e) => { let file = e.target.files[0]; if (file) uploadAvatar(file); };
         avatarPreview.onclick = () => avatarUpload.click();
 
-        // 导航菜单
+        // 导航与事件绑定
         mobileTrigger.onclick = (e) => { e.stopPropagation(); mobileDropdown.classList.toggle('open'); };
         document.addEventListener('click', (e) => { if(!mobileDropdown.contains(e.target) && !mobileTrigger.contains(e.target)) mobileDropdown.classList.remove('open'); });
         navItems.forEach(item => { item.onclick = () => switchTab(item.dataset.tab); });
         startAssessmentBtn.onclick = startQuiz;
         exitAssessmentBtn.onclick = () => { if(confirm('确定退出当前测评？进度将丢失。')) { stopTimer(); switchTab('home'); } };
         prevBtn.onclick = () => { if(currentIndex>0) { currentIndex--; renderQuestion(); } };
-        nextBtn.onclick = () => {
-            if(answers[currentIndex]===null) { alert('请先选择本项'); return; }
-            if(currentIndex===currentScale.questions.length-1) {
-                if (confirm('您已完成所有题目，是否提交测评？')) finishQuiz();
-            } else {
-                currentIndex++;
-                renderQuestion();
-                updateProgress();
-            }
-        };
+        nextBtn.onclick = () => { if(answers[currentIndex]===null) { alert('请先选择本项'); return; } if(currentIndex===currentScale.questions.length-1) { if (confirm('您已完成所有题目，是否提交测评？')) finishQuiz(); } else { currentIndex++; renderQuestion(); updateProgress(); } };
         finishBtn.onclick = () => switchTab('home');
         document.getElementById('toggleLoginPassword').onclick = () => { let pwdField = document.getElementById('loginPassword'); pwdField.type = pwdField.type === 'password' ? 'text' : 'password'; };
         document.getElementById('reselectBtn').onclick = () => { switchTab('home'); };
-        document.getElementById('scaleCategories').addEventListener('click', (e) => {
-            let card = e.target.closest('.scale-card');
-            if (card && card.dataset.key) startScale(card.dataset.key);
-        });
-        sendBtn.onclick = async () => {
-            let msg = chatInput.value.trim();
-            if (!msg) return;
-            chatMessages.push({role:'user', content:msg});
-            renderChat();
-            chatInput.value = '';
-            chatMessages.push({role:'assistant', content:'思考中...'});
-            renderChat();
-            const reply = await generateAIReply(msg);
-            chatMessages.pop();
-            chatMessages.push({role:'assistant', content:reply});
-            renderChat();
-        };
-        clearChat.onclick = () => {
-            chatMessages = [{role:'assistant', content:'您好！我是暖暖，您的心理支持助手。有什么我可以帮助您的吗？'}];
-            renderChat();
-        };
+        document.getElementById('scaleCategories').addEventListener('click', (e) => { let card = e.target.closest('.scale-card'); if (card && card.dataset.key) startScale(card.dataset.key); });
+        sendBtn.onclick = async () => { let msg = chatInput.value.trim(); if (!msg) return; chatMessages.push({role:'user', content:msg}); renderChat(); chatInput.value = ''; chatMessages.push({role:'assistant', content:'思考中...'}); renderChat(); const reply = await generateAIReply(msg); chatMessages.pop(); chatMessages.push({role:'assistant', content:reply}); renderChat(); };
+        clearChat.onclick = () => { chatMessages = [{role:'assistant', content:'您好！我是暖暖，您的心理支持助手。有什么我可以帮助您的吗？'}]; renderChat(); };
         function switchTab(tabId) {
             document.querySelectorAll('.mobile-dropdown-item').forEach(i=>i.classList.remove('active'));
             document.querySelector(`.mobile-dropdown-item[data-tab="${tabId}"]`)?.classList.add('active');
@@ -2068,32 +1815,8 @@
         }
         profileEntry.onclick = () => switchTab('profile');
         editHistoryBtn.onclick = () => { selectMode = true; selectedHistoryIndices = []; renderHistory(); };
-        deleteSelectedBtn.onclick = () => {
-            if (selectedHistoryIndices.length === 0) { showToast('未选中任何记录'); return; }
-            if (confirm(`确定删除 ${selectedHistoryIndices.length} 条记录吗？`)) {
-                selectedHistoryIndices.sort((a,b)=>b-a).forEach(async i => {
-                    const item = allResults[i];
-                    await supabase.from('results').delete().eq('id', item.id);
-                });
-                allResults = allResults.filter((_, idx) => !selectedHistoryIndices.includes(idx));
-                selectMode = false;
-                historyActions.style.display = 'none';
-                renderHistory();
-                updateProfileDisplay();
-                showToast('已删除选中记录');
-            }
-        };
-        deleteAllBtn.onclick = async () => {
-            if (confirm('确定删除所有历史记录吗？')) {
-                for (let item of allResults) {
-                    await supabase.from('results').delete().eq('id', item.id);
-                }
-                allResults = [];
-                renderHistory();
-                updateProfileDisplay();
-                showToast('已清空所有记录');
-            }
-        };
+        deleteSelectedBtn.onclick = () => { if (selectedHistoryIndices.length === 0) { showToast('未选中任何记录'); return; } if (confirm(`确定删除 ${selectedHistoryIndices.length} 条记录吗？`)) { selectedHistoryIndices.sort((a,b)=>b-a).forEach(async i => { const item = allResults[i]; await supabase.from('results').delete().eq('id', item.id); }); allResults = allResults.filter((_, idx) => !selectedHistoryIndices.includes(idx)); selectMode = false; historyActions.style.display = 'none'; renderHistory(); updateProfileDisplay(); showToast('已删除选中记录'); } };
+        deleteAllBtn.onclick = async () => { if (confirm('确定删除所有历史记录吗？')) { for (let item of allResults) { await supabase.from('results').delete().eq('id', item.id); } allResults = []; renderHistory(); updateProfileDisplay(); showToast('已清空所有记录'); } };
         cancelSelectBtn.onclick = () => { selectMode=false; historyActions.style.display='none'; renderHistory(); };
         exportHistoryBtn.onclick = exportDetailedHistory;
         historyFilter.onchange = () => renderHistory();
@@ -2103,40 +1826,27 @@
         searchScience.onkeyup = (e) => { if(e.key==='Enter') renderScience(e.target.value); };
         modifyAccountBtn.onclick = () => modifyAccountModal.classList.add('show');
 
-        // 初始化：检查登录状态，若已登录直接进入主界面，并渐隐启动遮罩
+        // 初始化：无转圈遮罩，直接根据登录状态显示，部件同时出现（动画由 CSS 处理）
         (async function init() {
             const savedUserId = localStorage.getItem('currentUserId');
             if (savedUserId) {
                 const { data: { session }, error } = await supabase.auth.getSession();
                 if (session && session.user.id === savedUserId) {
-                    const { data: profile } = await supabase
-                        .from('profiles')
-                        .select('*')
-                        .eq('id', session.user.id)
-                        .single();
+                    const { data: profile } = await supabase.from('profiles').select('*').eq('id', session.user.id).single();
                     currentUser = { ...session.user, ...profile };
-                    // 直接显示主界面，同时启动遮罩渐隐
-                    initLoading.classList.add('fade-out');
-                    setTimeout(() => {
-                        initLoading.style.display = 'none';
-                        authScreen.style.display = 'none';
-                        mainScreen.style.display = 'block';
-                        updateHeader();
-                        loadHistory().then(() => {
-                            updateProfileDisplay();
-                            renderHome();
-                            renderScience();
-                            renderChat();
-                        });
-                    }, 1000);
+                    authScreen.style.display = 'none';
+                    mainScreen.style.display = 'block';
+                    updateHeader();
+                    await loadHistory();
+                    updateProfileDisplay();
+                    renderHome();
+                    renderScience();
+                    renderChat();
                     return;
                 }
             }
-            // 未登录，显示登录界面，并隐藏启动遮罩
-            initLoading.style.display = 'none';
             authScreen.style.display = 'flex';
             mainScreen.style.display = 'none';
-            console.log("圆角优化完成，JS 逻辑与原版一致");
         })();
     </script>
 </body>

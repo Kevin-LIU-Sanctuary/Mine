@@ -46,7 +46,6 @@
             --nav-height: 60px;
             --content-padding: 20px;
             
-            /* 柔和型圆角系统 (16-24px) */
             --radius-card: 28px;
             --radius-button: 32px;
             --radius-input: 24px;
@@ -71,48 +70,29 @@
 
         /* 弹跳动画 */
         @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            60% {
-                opacity: 1;
-                transform: scale(1.01);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { opacity: 0; transform: scale(0.8); }
+            60% { opacity: 1; transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-
-        .page {
-            animation: fadeInUp 0.5s var(--animation-timing);
+        @keyframes dot-bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
         }
+
+        .page { animation: fadeInUp 0.5s var(--animation-timing); }
         
-        /* 所有卡片同时出现并带弹跳，错开延迟 */
         .scale-card {
             background: var(--bg-primary);
             border-radius: var(--radius-card);
@@ -131,7 +111,6 @@
             box-shadow: var(--shadow-lg);
         }
         
-        /* 其他主要组件也带淡入上浮动画 */
         .section-title, .section-subtitle, .category-title, .glass-card, .profile-card, .history-header, .filter-bar, .ai-container, .meditation-container {
             animation: fadeInUp 0.4s var(--animation-timing) backwards;
         }
@@ -168,6 +147,23 @@
             animation: spin 0.8s linear infinite;
         }
         
+        /* 思考中点点动画 */
+        .thinking-dots {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .thinking-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: dot-bounce 1.4s infinite ease-in-out both;
+        }
+        .thinking-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .thinking-dots span:nth-child(2) { animation-delay: -0.16s; }
+        
+        /* 其余样式保持不变（从原代码延续） */
         .site-header {
             position: sticky;
             top: 0;
@@ -207,11 +203,7 @@
             transition: transform 0.2s;
             overflow: hidden;
         }
-        .avatar-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .avatar-icon img { width: 100%; height: 100%; object-fit: cover; }
         .logo-text {
             font-size: 20px;
             font-weight: 600;
@@ -323,7 +315,6 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 24px;
         }
-        
         .scale-icon { font-size: 48px; margin-bottom: 16px; }
         .scale-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
         .scale-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
@@ -876,6 +867,19 @@
         #login-container .apple-button {
             border-radius: var(--radius-button);
         }
+        /* AI 思考中动画 */
+        .thinking-dots span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: currentColor;
+            animation: dot-bounce 1.4s infinite ease-in-out both;
+            margin: 0 1px;
+        }
+        .thinking-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .thinking-dots span:nth-child(2) { animation-delay: -0.16s; }
+        .thinking-dots span:nth-child(3) { animation-delay: 0s; }
     </style>
 </head>
 <body>
@@ -890,13 +894,13 @@
                 <div style="margin-bottom:20px;">
                     <label style="font-size:14px; color:var(--text-secondary); display:block; margin-bottom:6px;">用户 ID</label>
                     <div style="display:flex; align-items:center; background:#F2F4F8; border-radius:var(--radius-input); padding:0 16px; border:1px solid var(--border-light);">
-                        <input type="text" id="loginId" placeholder="在这里输入用户 ID" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;" maxlength="4" pattern="\d*">
+                        <input type="text" id="loginId" placeholder="在此处键入用户 ID" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;" maxlength="4" pattern="\d*">
                     </div>
                 </div>
                 <div style="margin-bottom:20px;">
                     <label style="font-size:14px; color:var(--text-secondary); display:block; margin-bottom:6px;">密码</label>
                     <div style="display:flex; align-items:center; background:#F2F4F8; border-radius:var(--radius-input); padding:0 16px; border:1px solid var(--border-light);">
-                        <input type="password" id="loginPassword" placeholder="在这里输入密码" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;">
+                        <input type="password" id="loginPassword" placeholder="在此处键入密码" style="flex:1; border:none; background:none; padding:14px 0; font-size:16px; outline:none;">
                         <button class="password-toggle" id="toggleLoginPassword" style="background:none; border:none; font-size:20px; color:var(--text-tertiary); line-height:1;">👁️</button>
                     </div>
                 </div>
@@ -950,12 +954,12 @@
                         <h3 style="margin-bottom:12px;">评估指南</h3>
                         <ul style="padding-left:20px; color:var(--text-secondary); font-size:15px; line-height:1.8;">
                             <li>请根据近期的真实感受选择</li>
-                            <li>SDS量表每题有4个选项 (偶有、有时、经常、持续)，其他量表有5个选项</li>
                             <li>完成后可查看结果报告</li>
                         </ul>
                     </div>
                     <div id="severityInfo"></div>
-                    <h3 style="margin-bottom:25px;"></h3>
+                    <div style="text-align: center; font-size: 0px; color: #ff3b30; margin-top: 20px; opacity: 1;">
+                    </div>
                     <button class="apple-button" id="startAssessmentBtn">开始测评</button>
                     <button class="apple-button apple-button-outline" id="reselectBtn" style="margin-top:12px;">重新选择</button>
                 </div>
@@ -998,8 +1002,13 @@
                     <div class="chat-messages-area" id="chatMessagesArea">
                         <div id="chatMessages"></div>
                     </div>
+                    <div style="text-align: center; font-size: 12px; color: #ff3b30; margin-top: 20px; opacity: 1;">
+                        心理支持内容均由 AI 生成，仅供参考
+                    </div>
+                    <div style="text-align: center; font-size: 0px; color: #ff3b30; margin-top: 6px; opacity: 1;">
+                    </div>
                     <div class="ai-toolbar">
-                        <input type="text" id="chatInput" placeholder="啥都可以跟我说说">
+                        <input type="text" id="chatInput" placeholder="啥都可以跟我说说...">
                         <button id="sendBtn">发送</button>
                         <button id="clearChat" class="outline-btn">清空</button>
                     </div>
@@ -1102,6 +1111,7 @@
         </main>
     </div>
 
+    <!-- 全局加载弹窗 -->
     <div id="loadingOverlay" class="loading-overlay"><div class="loading-spinner"></div></div>
 
     <!-- 修改密码模态框 -->
@@ -1145,6 +1155,7 @@
             <span class="close-modal" id="closeProfileModal">&times;</span>
             <h2 style="margin-bottom:20px;">编辑个人信息</h2>
             <div id="profileEditForm"></div>
+            <h2 style="color: #ff0000; font-size: 15px; margin-bottom:10px;">请注意：您的个人信息将作为生成心理健康评估报告的依据</h2>
             <div class="button-group"><button id="saveProfileBtn" class="apple-button">保存</button><button id="cancelProfileBtn" class="apple-button apple-button-outline">取消</button></div>
         </div>
     </div>
@@ -1175,48 +1186,88 @@
         ];
         let speechSynth = window.speechSynthesis;
 
-        // ========== AI 回复生成 ==========
-        async function generateAIReply(userMessage) {
+        // ========== 辅助函数 ==========
+        function showLoading() { document.getElementById('loadingOverlay').classList.add('show'); }
+        function hideLoading() { document.getElementById('loadingOverlay').classList.remove('show'); }
+
+        // 将 **文本** 转换为 <strong>文本</strong>
+        function formatBold(text) {
+            if (!text) return '';
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        // ========== 带上下文的 AI 对话 ==========
+        async function generateAIReplyWithContext(userMessage, history) {
             const apiKey = '05930ed5565943e385dfa6185511a76d.lnyJgQxS6uOYEkex';
             const url = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
-
+            // 构建消息列表：system + 最近10条历史（不包括当前消息，但包括之前的user/assistant）
+            const messages = [
+                { role: 'system', content: '你是一位温暖、专业、有同理心的心理支持助手，名字叫“暖暖”。请用中文简短温暖地回复。不要使用 ** 加粗标记，直接输出纯文本。' }
+            ];
+            // 取最近10条历史（避免过长）
+            const recentHistory = history.slice(-10);
+            for (const msg of recentHistory) {
+                if (msg.role === 'user' || msg.role === 'assistant') {
+                    // 注意：历史中的 assistant 消息可能包含 HTML，但这里发送给 API 时应只发送纯文本，去掉 HTML 标签
+                    let content = msg.content;
+                    if (msg.role === 'assistant') {
+                        // 简单移除 HTML 标签（保留纯文本）
+                        content = content.replace(/<[^>]*>/g, '');
+                    }
+                    messages.push({ role: msg.role, content: content });
+                }
+            }
+            // 添加当前用户消息
+            messages.push({ role: 'user', content: userMessage });
+            
             try {
                 const response = await fetch(url, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
-                    },
-                    body: JSON.stringify({
-                        model: 'glm-4-flash',
-                        messages: [
-                        { role: 'system', content: '你是一位温暖、专业、有同理心的心理支持助手，名字叫“暖暖”。你的服务对象是正在使用“心理健康综合评估系统”的学生和老师。\n\n## 你的核心任务\n1. **倾听与共情**：认真感受用户的情绪，用温和的语言表达理解，不评判、不说教。\n2. **提供支持**：根据用户的困扰，给出实用的心理调节建议（如深呼吸、正念、运动、倾诉等）。\n3. **引导专业帮助**：当用户的问题超出你的能力范围（如严重的自杀倾向、幻觉、自伤行为），请温柔地鼓励他们寻求学校心理老师、医院心理科或心理援助热线的专业帮助。\n4. **介绍本网站的功能**：当用户询问“这个网站能做什么”或表现出好奇时，请主动介绍以下三个评估测试。\n\n## 本网站的三个核心评估测试（请熟记）\n\n### 1. 汉密尔顿焦虑量表 (HAMA)\n- **用途**：评估焦虑症状的严重程度。\n- **题目数量**：14题。\n- **选项**：0分（无症状）到4分（极重）。\n- **总分范围**：0-56分。\n- **结果解读**：\n  - 0-7分：正常范围\n  - 8-14分：轻度焦虑\n  - 15-21分：中度焦虑\n  - 22-28分：重度焦虑\n  - 29-56分：极重度焦虑\n- **建议**：测试完成后，系统会生成详细报告和个性化建议。你可以根据结果了解自己的焦虑水平，并采取相应行动。\n\n### 2. 抑郁自评量表 (SDS)\n- **用途**：评估抑郁症状的严重程度。\n- **题目数量**：20题。\n- **选项**：1分（偶有）到4分（持续）。\n- **原始总分范围**：20-80分，系统会转换为标准分（乘以1.25）。\n- **标准分解读**：\n  - <53分：正常范围\n  - 53-62分：轻度抑郁\n  - 63-72分：中度抑郁\n  - ≥73分：重度抑郁\n- **建议**：如果结果显示中度及以上抑郁，请务必联系心理老师或医生。你并不孤单，寻求帮助是勇敢的行为。\n\n### 3. 性格测试量表 (DISC)\n- **用途**：了解你的行为风格和性格倾向，帮助自我认知和人际沟通。\n- **题目数量**：24题。\n- **选项**：5级评分（1=完全不同意，5=完全同意）。\n- **结果分为四种类型**：\n  - **D型（支配型）**：果断、直接、有竞争力，适合领导角色。\n  - **I型（影响型）**：乐观、热情、善于交际，适合团队合作。\n  - **S型（稳健型）**：耐心、友善、善于倾听，适合支持性工作。\n  - **C型（谨慎型）**：精确、逻辑性强、注重细节，适合技术或分析工作。\n- **建议**：了解自己的性格类型后，可以更好地发挥优势，改善与他人的相处方式。\n\n## 你的回答风格要求\n- 使用中文，语气温暖、鼓励、平和。\n- 每句话尽量简短，段落分明，避免长篇大论。\n- 适当使用emoji（如😊、🌿、💪、🌟）增加亲和力，但不要过度。\n- 当用户情绪低落时，先表达共情（如“听起来你最近真的很辛苦…”），再提供建议。\n- 如果用户询问专业诊断或药物治疗，请明确告知：“我不是医生，无法提供诊断或药物建议。请咨询专业心理医生或精神科医师。”\n\n## 回答示例（供你学习）\n- 用户：“我最近总是失眠，很焦虑。”\n  小暖：“听到你这么说，我能感受到你的疲惫和担忧。失眠确实会让人很难受。你可以试试睡前做5分钟深呼吸：慢慢吸气4秒，屏住7秒，再缓缓呼气8秒。如果持续失眠，建议去校医院看看哦。另外，我们的HAMA焦虑测试可以帮助你了解焦虑程度，要不要试试看？😊”\n\n- 用户：“这个网站能做什么？”\n  小暖：“欢迎来到心理健康综合评估系统！这里提供三个专业测试：汉密尔顿焦虑量表（HAMA）、抑郁自评量表（SDS）和性格测试量表（DISC）。完成测试后，你会得到详细的报告和建议，帮助你更好地了解自己的心理状态。此外，还有AI心理支持、正念冥想引导和健康科普文章。希望这些能帮到你！🌟”\n\n## 最后提醒\n你是一个**支持者**，不是治疗师。如果用户提到伤害自己或他人的想法，请立即回应：“我非常担心你的安全。请马上联系心理援助热线或告诉身边信任的人。你值得被帮助。”' },
-                        { role: 'user', content: userMessage }
-                        ],
-                        stream: false
-                    })
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                    body: JSON.stringify({ model: 'glm-4-flash', messages: messages, stream: false })
                 });
-
                 const data = await response.json();
-                return data.choices[0].message.content;
+                let reply = data.choices[0].message.content;
+                // 移除可能出现的 ** 标记（若模型未完全遵守）并转换为加粗（以防万一）
+                reply = formatBold(reply);
+                return reply;
             } catch (error) {
                 console.error('AI调用失败:', error);
                 return "抱歉，我暂时无法回答，请稍后再试。";
             }
         }
 
-        // 规则备用
-        function generateRuleReply(msg) {
-            let lower = msg.toLowerCase();
-            if(lower.includes('焦虑')||lower.includes('紧张')) return "我理解您现在的感受。焦虑时不妨试试深呼吸：慢慢吸气4秒，屏住7秒，然后缓缓呼气8秒。需要我陪您一起分析吗？";
-            if(lower.includes('睡不着')||lower.includes('失眠')) return "睡眠问题真的很影响白天的状态。睡前1小时可以试试远离手机，听听轻柔的音乐或白噪音。您最近是不是有什么心事影响了睡眠？";
-            if(lower.includes('害怕')||lower.includes('恐惧')) return "害怕是一种很正常的情绪反应，每个人都会有的。能告诉我具体是哪些事情让您感到害怕吗？我们一起面对可能会轻松一些。";
-            if(lower.includes('谢谢')) return "不客气，能帮到您是我的荣幸。我一直在这里，随时愿意倾听。";
-            if(lower.includes('难过')||lower.includes('伤心')||lower.includes('哭')) return "听到您这么说，我也感到很难过。想哭就哭出来吧，释放情绪是很重要的。您愿意的话，可以说说发生了什么，我会安静地听。";
-            return "感谢您的分享。我一直在用心倾听。您能多说一些您的感受吗？这样我能更好地理解您。";
+        // 兼容旧函数（生成报告用）
+        async function generateDetailedReport(scaleName, totalScore, answersArray, userInfo) {
+            const apiKey = '05930ed5565943e385dfa6185511a76d.lnyJgQxS6uOYEkex';
+            const url = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+            const prompt = `你是一位专业的心理支持助手。请根据以下信息为用户生成一份详细的心理健康报告。
+用户信息：年龄 ${userInfo.age} 岁，性别 ${userInfo.gender}，爱好 ${userInfo.hobbies.join('、') || '无'}，MBTI性格类型 ${userInfo.mbti || '未知'}。
+本次测评量表：${scaleName}，总分：${totalScore}。
+用户对每道题的回答（数字代表选项分值）：${JSON.stringify(answersArray)}。
+请生成一份包含以下内容的报告（用中文，温暖专业）：
+1. 当前状态分析（根据分数和答案模式，描述可能存在的情绪/行为倾向）
+2. 个人积极特征（结合用户的爱好、性格特点，指出积极方面）
+3. 具体改善建议（至少3条，有可操作性）
+4. 鼓励寄语
+请直接输出报告正文，不要添加额外说明。`;
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                    body: JSON.stringify({ model: 'glm-4-flash', messages: [{ role: 'system', content: '你是一名温暖专业的心理助手。' }, { role: 'user', content: prompt }], stream: false })
+                });
+                const data = await response.json();
+                let report = data.choices[0].message.content;
+                report = formatBold(report);
+                return report;
+            } catch (error) {
+                console.error('生成报告失败', error);
+                return "报告生成失败，请稍后重试。";
+            }
         }
 
-        // ========== 量表数据 ==========
+        // ========== 量表数据（完整） ==========
         const scales = {
             hama: {
                 name: "汉密尔顿焦虑量表 (HAMA)",
@@ -1332,7 +1383,7 @@
             { title: "社交连接：心理健康的保护伞", source: "哈佛成人发展研究", desc: "良好的人际关系是预测幸福的最强因素。", fullContent: "哈佛大学持续85年的研究发现，人际关系质量是决定人们是否幸福的关键因素。定期与朋友、家人进行有意义的交流，能够缓解压力，增强归属感。", link: "https://www.adultdevelopmentstudy.org/" }
         ];
 
-        // ========== DOM 元素引用 ==========
+        // ========== DOM 元素 ==========
         const authScreen = document.getElementById('auth-screen');
         const mainScreen = document.getElementById('main-screen');
         const headerAvatarDiv = document.getElementById('headerAvatar');
@@ -1407,7 +1458,7 @@
         const loadingOverlay = document.getElementById('loadingOverlay');
         const toast = document.getElementById('toast');
 
-        // ========== 辅助函数 ==========
+        // ========== 通用函数 ==========
         function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),2000); }
         function formatTime(sec) { let m = Math.floor(sec/60), s = Math.floor(sec%60); return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
         function updateHeader() {
@@ -1464,9 +1515,7 @@
             if (!currentUser) return null;
             const fileExt = file.name.split('.').pop();
             const fileName = `${currentUser.id}/${Date.now()}.${fileExt}`;
-            const { data, error } = await supabase.storage
-                .from(AVATAR_BUCKET)
-                .upload(fileName, file, { cacheControl: '3600', upsert: false });
+            const { data, error } = await supabase.storage.from(AVATAR_BUCKET).upload(fileName, file, { cacheControl: '3600', upsert: false });
             if (error) { console.error('上传失败', error); showToast('头像上传失败'); return null; }
             const { data: publicUrlData } = supabase.storage.from(AVATAR_BUCKET).getPublicUrl(fileName);
             const avatarUrl = publicUrlData.publicUrl;
@@ -1510,11 +1559,25 @@
             filtered.forEach((item, idx) => {
                 let originalIdx = allResults.indexOf(item);
                 let date = new Date(item.created_at).toLocaleString();
-                let color = item.scale_name.includes('焦虑')&&item.scale_name!=='DISC'?'#FF9500':item.scale_name.includes('抑郁')?'#FF3B30':'#34C759';
+                let color = '';
+                if (item.scale_name.includes('焦虑')) {
+                    if (item.total_score <= 7) color = '#34C759';
+                    else if (item.total_score <= 14) color = '#FF9500';
+                    else color = '#FF3B30';
+                } else if (item.scale_name.includes('抑郁')) {
+                    let standard = item.standard_score || Math.floor(item.total_score * 1.25);
+                    if (standard < 53) color = '#34C759';
+                    else if (standard < 63) color = '#FF9500';
+                    else color = '#FF3B30';
+                } else if (item.scale_name.includes('性格')) {
+                    color = '#0C567D';
+                } else {
+                    color = '#86868B';
+                }
                 const checked = selectMode && selectedHistoryIndices.includes(originalIdx) ? 'checked' : '';
                 html += `<div class="history-item" data-idx="${originalIdx}" style="border-left-color:${color};">
                             ${selectMode ? `<input type="checkbox" class="history-checkbox" data-idx="${originalIdx}" ${checked}>` : ''}
-                            <div class="history-content" data-idx="${originalIdx}">
+                            <div class="history-content" style="flex:1;">
                                 <div style="font-size:13px;">${date}</div>
                                 <div>${item.scale_name} · 总分: ${item.total_score}</div>
                             </div>
@@ -1528,14 +1591,20 @@
             document.querySelectorAll('.delete-single-btn').forEach(btn => {
                 btn.onclick = async (e) => { e.stopPropagation(); let idx = parseInt(btn.dataset.idx); if (confirm('确定删除此条记录吗？')) { const item = allResults[idx]; const { error } = await supabase.from('results').delete().eq('id', item.id); if (error) { showToast('删除失败'); return; } allResults.splice(idx,1); renderHistory(); updateProfileDisplay(); showToast('已删除'); } };
             });
-            document.querySelectorAll('.history-content').forEach(el => { el.onclick = () => { if (!selectMode) showHistoryDetail(parseInt(el.dataset.idx)); }; });
+            document.querySelectorAll('.history-item').forEach(el => {
+                el.onclick = (e) => {
+                    if (e.target.classList.contains('delete-single-btn') || e.target.classList.contains('history-checkbox')) return;
+                    const idx = parseInt(el.dataset.idx);
+                    if (!selectMode) showHistoryDetail(idx);
+                };
+            });
         }
 
         function showHistoryDetail(idx) {
             const item = allResults[idx];
             let content = `<div><h3>${item.scale_name}</h3><p>时间: ${new Date(item.created_at).toLocaleString()}</p><p>总分: ${item.total_score}</p>`;
             if (item.standard_score) content += `<p>标准分: ${item.standard_score}</p>`;
-            if (item.advice) content += `<div class="glass-card" style="margin-top:16px;"><h4>智能建议</h4><p>${item.advice}</p></div>`;
+            if (item.advice) content += `<div class="glass-card" style="margin-top:16px;"><h4>详细报告</h4><p style="white-space: pre-wrap;">${item.advice}</p></div>`;
             content += `</div>`;
             modalBody.innerHTML = content;
             historyModal.classList.add('show');
@@ -1546,7 +1615,7 @@
             if (allResults.length === 0) { alert('暂无数据'); return; }
             let rows = [];
             for (let item of allResults) {
-                let row = { '时间': new Date(item.created_at).toLocaleString(), '量表': item.scale_name, '总分': item.total_score, '标准分': item.standard_score || '', '用时(秒)': item.duration, '详细答案': item.raw_answers ? JSON.stringify(item.raw_answers) : '' };
+                let row = { '时间': new Date(item.created_at).toLocaleString(), '量表': item.scale_name, '总分': item.total_score, '标准分': item.standard_score || '', '用时(秒)': item.duration, '详细答案': item.raw_answers ? JSON.stringify(item.raw_answers) : '', 'AI报告摘要': item.advice ? item.advice.substring(0,100) : '' };
                 rows.push(row);
             }
             const csvRows = []; const headers = Object.keys(rows[0]); csvRows.push(headers.join(','));
@@ -1628,13 +1697,37 @@
             if (currentScale === scales.hama) total = answers.reduce((s,i)=>s+i,0);
             else if (currentScale === scales.sds) total = answers.reduce((sum, val, idx) => { let userScore = val; let itemScore = userScore + 1; let qNum = idx + 1; if (scales.sds.reverseItems.includes(qNum)) itemScore = 5 - itemScore; return sum + itemScore; }, 0);
             else if (currentScale === scales.disc) total = answers.reduce((s,i)=>s+(i+1),0);
-            const result = { timestamp: new Date().toISOString(), scale: currentScale.name, totalScore: total, rawAnswers: [...answers], duration: elapsedSeconds, advice: currentScale.getReport(total,answers).match(/<p>([^<]+)<\/p>/)?.[1] || "" };
+            
+            showLoading();
+            const userInfo = {
+                age: currentUser.age,
+                gender: currentUser.gender,
+                hobbies: currentUser.hobbies || [],
+                mbti: currentUser.mbti || ''
+            };
+            const detailedReport = await generateDetailedReport(currentScale.name, total, answers, userInfo);
+            const result = {
+                timestamp: new Date().toISOString(),
+                scale: currentScale.name,
+                totalScore: total,
+                rawAnswers: [...answers],
+                duration: elapsedSeconds,
+                advice: detailedReport
+            };
             if (currentScale === scales.sds) result.standardScore = Math.floor(total * 1.25);
             const saved = await saveResultToCloud(result);
-            if (!saved) return false;
+            if (!saved) { hideLoading(); return false; }
             await loadHistory();
-            loadingOverlay.classList.add('show');
-            setTimeout(() => { loadingOverlay.classList.remove('show'); let reportHtml = currentScale.getReport(total, answers); document.getElementById('reportContent').innerHTML = reportHtml; document.getElementById('resultTime').textContent = `用时 ${formatTime(elapsedSeconds)}`; welcomeStep.style.display = 'none'; questionsStep.style.display = 'none'; resultStep.style.display = 'block'; }, 2000);
+            setTimeout(() => {
+                hideLoading();
+                let reportHtml = `<div style="margin-bottom:20px;">${currentScale.getReport(total, answers)}</div>`;
+                reportHtml += `<div class="glass-card"><h3>AI 详细解读</h3><p style="white-space: pre-wrap;">${detailedReport.replace(/\n/g,'<br>')}</p></div>`;
+                document.getElementById('reportContent').innerHTML = reportHtml;
+                document.getElementById('resultTime').textContent = `用时 ${formatTime(elapsedSeconds)}`;
+                welcomeStep.style.display = 'none';
+                questionsStep.style.display = 'none';
+                resultStep.style.display = 'block';
+            }, 200);
             stopTimer();
             return true;
         }
@@ -1645,7 +1738,11 @@
                 let align = msg.role==='user'?'flex-end':'flex-start';
                 let bg = msg.role==='user'?'var(--primary)':'var(--bg-secondary)';
                 let color = msg.role==='user'?'white':'var(--text-primary)';
-                html += `<div style="display:flex; justify-content:${align}; margin-bottom:12px;"><div style="max-width:70%; padding:12px 16px; border-radius:20px; background:${bg}; color:${color};">${msg.content.replace(/\n/g,'<br>')}</div></div>`;
+                let content = msg.content;
+                if (msg.role === 'assistant') {
+                    content = formatBold(content);
+                }
+                html += `<div style="display:flex; justify-content:${align}; margin-bottom:12px;"><div style="max-width:70%; padding:12px 16px; border-radius:20px; background:${bg}; color:${color};">${content.replace(/\n/g,'<br>')}</div></div>`;
             });
             chatMessagesDiv.innerHTML = html;
             chatMessagesDiv.parentElement.scrollTop = chatMessagesDiv.parentElement.scrollHeight;
@@ -1692,12 +1789,13 @@
 
         // ========== 登录逻辑 ==========
         document.getElementById('loginBtn').onclick = async () => {
+            showLoading();
             let id = document.getElementById('loginId').value.trim();
             let pwd = document.getElementById('loginPassword').value;
-            if (!/^\d{4}$/.test(id)) { showToast('ID必须为4位数字'); return; }
+            if (!/^\d{4}$/.test(id)) { showToast('ID 填写有误'); hideLoading(); return; }
             const email = `${id}@login.com`;
             const { data, error } = await supabase.auth.signInWithPassword({ email, password: pwd });
-            if (error) { showToast('ID或密码错误'); return; }
+            if (error) { showToast('ID 或密码填写有误'); hideLoading(); return; }
             const { data: profile, error: profileError } = await supabase.from('profiles').select('*').eq('id', data.user.id).single();
             if (profileError) {
                 const nickname = data.user.user_metadata?.nickname || '用户';
@@ -1718,6 +1816,7 @@
             renderHome();
             renderScience();
             renderChat();
+            hideLoading();
         };
 
         // ========== 修改密码 ==========
@@ -1746,7 +1845,7 @@
         // ========== 退出登录 ==========
         logoutBtn.onclick = () => { if (confirm('确定退出登录吗？')) { supabase.auth.signOut(); authScreen.style.display = 'flex'; mainScreen.style.display = 'none'; currentUser = null; localStorage.removeItem('currentUserId'); showToast('已退出登录'); } };
 
-        // ========== 个人中心编辑（占位完整实现） ==========
+        // ========== 个人中心编辑 ==========
         let hobbyOptions = ['运动/健身','音乐/乐器','阅读/写作','绘画/手工','游戏/电竞','科技/数码','影视/追剧','旅行/户外','烹饪/美食','其他'];
         let dims = [{name:'精力来源', opts:['E','I']},{name:'认知方式',opts:['S','N']},{name:'决策方式',opts:['T','F']},{name:'生活态度',opts:['J','P']}];
         editProfileBtn.onclick = () => {
@@ -1797,8 +1896,27 @@
         document.getElementById('toggleLoginPassword').onclick = () => { let pwdField = document.getElementById('loginPassword'); pwdField.type = pwdField.type === 'password' ? 'text' : 'password'; };
         document.getElementById('reselectBtn').onclick = () => { switchTab('home'); };
         document.getElementById('scaleCategories').addEventListener('click', (e) => { let card = e.target.closest('.scale-card'); if (card && card.dataset.key) startScale(card.dataset.key); });
-        sendBtn.onclick = async () => { let msg = chatInput.value.trim(); if (!msg) return; chatMessages.push({role:'user', content:msg}); renderChat(); chatInput.value = ''; chatMessages.push({role:'assistant', content:'思考中...'}); renderChat(); const reply = await generateAIReply(msg); chatMessages.pop(); chatMessages.push({role:'assistant', content:reply}); renderChat(); };
-        clearChat.onclick = () => { chatMessages = [{role:'assistant', content:'您好！我是暖暖，您的心理支持助手。有什么我可以帮助您的吗？'}]; renderChat(); };
+        sendBtn.onclick = async () => {
+            let msg = chatInput.value.trim();
+            if (!msg) return;
+            chatMessages.push({role:'user', content:msg});
+            renderChat();
+            chatInput.value = '';
+            // 显示带动画的“思考中...”
+            const thinkingMsg = { role:'assistant', content: '思考中<span class="thinking-dots"><span></span><span></span><span></span></span>' };
+            chatMessages.push(thinkingMsg);
+            renderChat();
+            // 获取历史消息（排除当前临时消息）
+            const historyForAI = chatMessages.filter(m => m.role !== 'assistant' || !m.content.includes('thinking-dots'));
+            const reply = await generateAIReplyWithContext(msg, historyForAI.slice(0, -1)); // 去掉最后一条（当前临时）
+            chatMessages.pop(); // 移除“思考中”
+            chatMessages.push({role:'assistant', content: reply});
+            renderChat();
+        };
+        clearChat.onclick = () => {
+            chatMessages = [{role:'assistant', content:'您好！我是暖暖，您的心理支持助手。有什么我可以帮助您的吗？'}];
+            renderChat();
+        };
         function switchTab(tabId) {
             document.querySelectorAll('.mobile-dropdown-item').forEach(i=>i.classList.remove('active'));
             document.querySelector(`.mobile-dropdown-item[data-tab="${tabId}"]`)?.classList.add('active');
@@ -1824,7 +1942,7 @@
         searchScience.onkeyup = (e) => { if(e.key==='Enter') renderScience(e.target.value); };
         modifyAccountBtn.onclick = () => modifyAccountModal.classList.add('show');
 
-        // 初始化：无转圈遮罩，直接根据登录状态显示，部件同时出现（动画由 CSS 处理）
+        // 初始化
         (async function init() {
             const savedUserId = localStorage.getItem('currentUserId');
             if (savedUserId) {

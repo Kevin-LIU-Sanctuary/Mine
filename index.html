@@ -70,7 +70,7 @@
 
         /* 弹跳动画 */
         @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.97); }
+            0% { opacity: 0; transform: scale(0.95); }
             60% { opacity: 1; transform: scale(1.01); }
             100% { transform: scale(1); }
         }
@@ -990,6 +990,7 @@
                         <p id="resultTime">用时 00:00</p>
                     </div>
                     <div id="reportContent"></div>
+                    <div style="text-align: center; font-size: 12px; margin-top: 20px; opacity: 1;"></div>
                     <button class="apple-button" id="finishBtn">完成</button>
                 </div>
             </div>
@@ -1005,8 +1006,7 @@
                     <div style="text-align: center; font-size: 12px; color: #ff3b30; margin-top: 20px; opacity: 1;">
                         心理支持内容均由 AI 生成，仅供参考
                     </div>
-                    <div style="text-align: center; font-size: 0px; color: #ff3b30; margin-top: 6px; opacity: 1;">
-                    </div>
+                    <div style="text-align: center; font-size: 12px; margin-top: 6px; opacity: 1;"></div>
                     <div class="ai-toolbar">
                         <input type="text" id="chatInput" placeholder="啥都可以跟我说说...">
                         <button id="sendBtn">发送</button>
@@ -1245,12 +1245,12 @@
 用户信息：年龄 ${userInfo.age} 岁，性别 ${userInfo.gender}，爱好 ${userInfo.hobbies.join('、') || '无'}，MBTI性格类型 ${userInfo.mbti || '未知'}。
 本次测评量表：${scaleName}，总分：${totalScore}。
 用户对每道题的回答（数字代表选项分值）：${JSON.stringify(answersArray)}。
-请生成一份包含以下内容的报告（用中文，温暖专业）：
+请生成一份包含以下内容的报告（用中文，温暖而专业，不要标题）：
 1. 当前状态分析（根据分数和答案模式，描述可能存在的情绪/行为倾向）
 2. 个人积极特征（结合用户的爱好、性格特点，指出积极方面）
 3. 具体改善建议（至少3条，有可操作性）
 4. 鼓励寄语
-请直接输出报告正文，不要添加额外说明。`;
+请严格按照此框架直接输出报告正文，不要添加额外说明，不要署名。`;
             try {
                 const response = await fetch(url, {
                     method: 'POST',
@@ -1301,7 +1301,7 @@
                 getReport: (s) => {
                     let severity = scales.hama.getSeverity(s);
                     let advice = severity==="正常"?"您的焦虑水平在正常范围内。建议保持健康的生活方式。":severity==="轻度焦虑"?"您有轻度焦虑症状。建议学习压力管理技巧。":severity==="中度焦虑"?"您有中度焦虑症状。建议寻求专业心理咨询。":severity==="重度焦虑"?"您有重度焦虑症状。强烈建议咨询心理医生。":"您有极重度焦虑症状。请立即寻求专业帮助。";
-                    return `<div style="display:flex; gap:12px; margin-bottom:20px;"><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:36px; color:var(--primary);">${s}</span><span>/56</span><div>总分</div></div><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:32px; color:var(--primary);">${severity}</span><div>严重程度</div></div></div><div class="glass-card"><h3>智能建议</h3><p>${advice}</p></div>`;
+                    return `<div style="display:flex; gap:12px; margin-bottom:20px;"><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:36px; color:var(--primary);">${s}</span><span>/56</span><div>总分</div></div><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:32px; color:var(--primary);">${severity}</span><div>严重程度</div></div></div><div class="glass-card"><h3>简要建议</h3><p>${advice}</p></div>`;
                 }
             },
             sds: {
@@ -1342,7 +1342,7 @@
                     let std = Math.floor(score * 1.25);
                     let severity = scales.sds.getSeverity(score);
                     let advice = severity==="正常"?"您的情绪状态良好，请继续保持。":severity==="轻度抑郁"?"您可能有轻度抑郁倾向，建议增加社交、规律运动。":severity==="中度抑郁"?"您有中度抑郁症状，建议咨询心理医生。":"您有重度抑郁症状，请立即寻求专业帮助。";
-                    return `<div style="display:flex; gap:12px; margin-bottom:20px;"><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:36px; color:var(--primary);">${score}</span><span>/80</span><div>原始总分</div></div><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:32px; color:var(--primary);">${std}</span><div>标准分</div></div><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:32px; color:var(--primary);">${severity}</span><div>抑郁程度</div></div></div><div class="glass-card"><h3>智能建议</h3><p>${advice}</p></div>`;
+                    return `<div style="display:flex; gap:12px; margin-bottom:20px;"><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:36px; color:var(--primary);">${score}</span><span>/80</span><div>原始总分</div></div><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:32px; color:var(--primary);">${std}</span><div>标准分</div></div><div class="result-card" style="flex:1; background:white; border-radius:20px; padding:16px; text-align:center;"><span style="font-size:32px; color:var(--primary);">${severity}</span><div>抑郁程度</div></div></div><div class="glass-card"><h3>简要建议</h3><p>${advice}</p></div>`;
                 }
             },
             disc: {
@@ -1686,7 +1686,7 @@
                 };
             });
             prevBtn.disabled = (currentIndex===0);
-            nextBtn.innerText = (currentIndex===currentScale.questions.length-1) ? '完成测评' : '下一题';
+            nextBtn.innerText = (currentIndex===currentScale.questions.length-1) ? '完成并提交测评' : '下一题';
         }
         function updateProgress() { let answered = answers.filter(a => a!==null).length; progressFill.style.width = (answered/currentScale.questions.length*100)+'%'; progressCount.innerText = `${answered}/${currentScale.questions.length}`; }
         function startTimer() { if(timerInterval) clearInterval(timerInterval); startTime = Date.now() - elapsedSeconds*1000; timerInterval = setInterval(() => { elapsedSeconds = Math.floor((Date.now()-startTime)/1000); timerSpan.textContent = formatTime(elapsedSeconds); },200); }
